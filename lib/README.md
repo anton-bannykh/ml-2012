@@ -17,8 +17,8 @@ Apache Common Math
 NumPy
 -----
 
-Самая известная математическая библиотека для Python. [Иструкции
-и мануалы.][NumPy] Является частью проекта [SciPy][SciPy].
+Самая известная математическая библиотека для Python. [Иструкции и мануалы.][NumPy] 
+Является частью проекта [SciPy][SciPy].
 
 [NumPy]: http://numpy.scipy.org/
 [SciPy]: http://www.scipy.org/
