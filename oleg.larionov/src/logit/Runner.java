@@ -1,95 +1,40 @@
 package logit;
 
-import java.io.DataInputStream;
-import java.io.FileInputStream;
 import java.io.PrintWriter;
-import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.List;
-import java.util.Random;
 import java.util.concurrent.CountDownLatch;
 
 public class Runner implements Runnable {
 
-	public static final String im = "train.imgs", lab = "labels.imgs";
-	public static final int n = 28, m = 28, count = 60000;
-	public static final double TAU = 0.5, MULT = 100, SHIFT = 128;
+	public static final double ETA = 2;
+	public static final double INIT = 1;
+
 	private String out;
-	private int myNum, maxYesCount, maxNoCount;
+	private int myNum;
+	private double x[][];
+	private int y[];
 	private CountDownLatch lock;
 
-	public Runner(int myNum, int maxYesCount, int maxNoCount,
-			CountDownLatch lock) {
+	public Runner(int myNum, double[][] x, int[] y, CountDownLatch lock) {
 		this.myNum = myNum;
-		this.maxYesCount = maxYesCount;
-		this.maxNoCount = maxNoCount;
+		this.x = x;
+		this.y = y;
 		out = "out/" + myNum + ".txt";
 		this.lock = lock;
 	}
 
 	@Override
 	public void run() {
-		List<Pair> list = new ArrayList<>();
-		try {
-			DataInputStream imgs = new DataInputStream(new FileInputStream(im)), labels = new DataInputStream(
-					new FileInputStream(lab));
-			imgs.skip(16);
-			labels.skip(8);
-			int yes = 0, no = 0, num;
-
-			for (int w = 0; w < count; ++w) {
-				if (w % 10000 == 0) {
-					System.out.println("num " + myNum + " image " + w);
-				}
-				if (yes > maxYesCount && no > maxNoCount) {
-					System.out.println("num " + myNum + " break on " + w);
-					break;
-				}
-
-				num = labels.read();
-				if (num == myNum) {
-					if (yes > maxYesCount) {
-						imgs.skip(n * m);
-						continue;
-					}
-					++yes;
-				} else {
-					if (no > maxNoCount) {
-						imgs.skip(n * m);
-						continue;
-					}
-					++no;
-				}
-
-				double[] cur = new double[n * m];
-
-				for (int i = 0; i < n; ++i) {
-					for (int j = 0; j < m; ++j) {
-						cur[i * n + j] = (1.0 * imgs.read() - SHIFT) / MULT;
-					}
-				}
-				list.add(new Pair(cur, num));
-			}
-			imgs.close();
-			labels.close();
-		} catch (Exception e) {
-			lock.countDown();
-			System.err.println("num " + myNum + " fail in first try "
-					+ e.getMessage());
-			return;
-		}
-
-		double w[] = new double[n * m], w0 = 1;
-		Arrays.fill(w, 1);
-		Random rnd = new Random();
-		for (int run = 0; run < 3 * list.size(); ++run) {
-			int r = rnd.nextInt(list.size());
-			Pair p = list.get(r);
-			double y = myNum == p.num ? 1.0 : -1.0;
-			double sigma = sigma(y * (mult(w, p.point) + w0));
+		System.out.println(myNum + " begin calculating");
+		double w[] = new double[LogitRegr.N * LogitRegr.M], w0 = INIT;
+		Arrays.fill(w, INIT);
+		for (int run = 0; run < 4 * x.length; ++run) {
+			double curX[] = x[run % x.length], curY = y[run % x.length];
+			double trY = myNum == curY ? 1.0 : -1.0;
+			double sigma = sigma(trY * (mult(w, curX) + w0));
 			for (int i = 0; i < w.length; ++i) {
-				w[i] += y * p.point[i] * (1.0 - sigma) * TAU;
-				w0 += y * (1.0 - sigma) * TAU;
+				w[i] += trY * curX[i] * (1.0 - sigma) * ETA;
+				w0 += trY * (1.0 - sigma) * ETA;
 			}
 		}
 
@@ -103,7 +48,7 @@ public class Runner implements Runnable {
 			pw.close();
 		} catch (Exception e) {
 			lock.countDown();
-			System.err.println("num " + myNum + "fail in second try "
+			System.err.println(myNum + "fail printing results "
 					+ e.getMessage());
 			return;
 		}
@@ -123,15 +68,5 @@ public class Runner implements Runnable {
 
 	public double sigma(double x) {
 		return 1.0 / (1.0 + Math.exp(-x));
-	}
-
-	private static class Pair {
-		public double[] point;
-		public int num;
-
-		public Pair(double[] point, int num) {
-			this.point = point;
-			this.num = num;
-		}
 	}
 }
