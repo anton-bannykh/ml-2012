@@ -4,10 +4,18 @@ import java.io.PrintWriter;
 import java.util.Arrays;
 import java.util.concurrent.CountDownLatch;
 
+import org.apache.commons.math3.analysis.DifferentiableMultivariateFunction;
+import org.apache.commons.math3.optimization.GoalType;
+import org.apache.commons.math3.optimization.PointValuePair;
+import org.apache.commons.math3.optimization.SimpleValueChecker;
+import org.apache.commons.math3.optimization.general.ConjugateGradientFormula;
+import org.apache.commons.math3.optimization.general.NonLinearConjugateGradientOptimizer;
+import org.apache.commons.math3.util.FastMath;
+
 public class Runner implements Runnable {
 
-	public static final double ETA = 2;
-	public static final double INIT = 1;
+	public static final int MAX_EVAL = 30000;
+	public static final double INIT = 0;
 
 	private String out;
 	private int myNum;
@@ -26,36 +34,31 @@ public class Runner implements Runnable {
 	@Override
 	public void run() {
 		System.out.println(myNum + " begin calculating");
-		double w[] = new double[LogitRegr.N * LogitRegr.M], w0 = INIT;
+		double w[] = new double[LogitRegr.N * LogitRegr.M + 1];
 		Arrays.fill(w, INIT);
-		for (int run = 0; run < 4 * x.length; ++run) {
-			double curX[] = x[run % x.length], curY = y[run % x.length];
-			double trY = myNum == curY ? 1.0 : -1.0;
-			double sigma = sigma(trY * (mult(w, curX) + w0));
-			for (int i = 0; i < w.length; ++i) {
-				w[i] += trY * curX[i] * (1.0 - sigma) * ETA;
-				w0 += trY * (1.0 - sigma) * ETA;
-			}
-		}
+
+		DifferentiableMultivariateFunction f = new Logit(myNum, x, y);
+		NonLinearConjugateGradientOptimizer opt = new NonLinearConjugateGradientOptimizer(
+				ConjugateGradientFormula.POLAK_RIBIERE, new SimpleValueChecker(0, 1));
+		PointValuePair p = opt.optimize(MAX_EVAL, f, GoalType.MINIMIZE, w);
 
 		try {
 			PrintWriter pw = new PrintWriter(out);
-			pw.print(w0 + " ");
-			for (int i = 0; i < w.length; ++i) {
-				pw.print(w[i] + " ");
+			for (int i = 0; i < p.getPointRef().length; ++i) {
+				pw.print(p.getPointRef()[i] + " ");
 			}
 			pw.println();
 			pw.close();
 		} catch (Exception e) {
 			lock.countDown();
-			System.err.println(myNum + "fail printing results "
+			System.err.println(myNum + " fail printing results "
 					+ e.getMessage());
 			return;
 		}
 
 		lock.countDown();
-		System.err.println("num " + myNum + " calculated. lock "
-				+ lock.getCount());
+		System.err.println("num " + myNum + " calculated. log value "
+				+ p.getValue() + " lock " + lock.getCount());
 	}
 
 	public static double mult(double[] x, double[] y) {
@@ -66,7 +69,7 @@ public class Runner implements Runnable {
 		return ans;
 	}
 
-	public double sigma(double x) {
-		return 1.0 / (1.0 + Math.exp(-x));
+	public static double sigma(double x) {
+		return 1.0 / (1.0 + FastMath.exp(-x));
 	}
 }

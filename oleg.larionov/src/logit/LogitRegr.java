@@ -14,10 +14,10 @@ public class LogitRegr {
 
 	public static final int N = 28, M = 28, COUNT = 60000;
 	public static final String IM = "train.imgs", LAB = "labels.imgs";
-	public static final double MULT = 100, SHIFT = 128;
+	public static final double MULT = 1000, SHIFT = 128;
 
 	public static void main(String[] args) throws Exception {
-		double[][] x = new double[COUNT][N * M];
+		double[][] x = new double[COUNT][N * M + 1];
 		int[] y = new int[COUNT];
 
 		try {
@@ -38,6 +38,7 @@ public class LogitRegr {
 						x[w][i * N + j] = (imgs.read() - SHIFT) / MULT;
 					}
 				}
+				x[w][N * M] = 1;
 			}
 			imgs.close();
 			labels.close();
@@ -62,7 +63,5 @@ public class LogitRegr {
 			pw.println(sc.nextLine());
 		}
 		pw.close();
-
-		CheckLogit.main(null);
 	}
 }

@@ -20,20 +20,21 @@ public class CheckLogit {
 		BufferedReader br = new BufferedReader(new InputStreamReader(
 				new FileInputStream(INPUT)));
 
-		double w[][] = new double[10][LogitRegr.N * LogitRegr.M], w0[] = new double[10];
+		double w[][] = new double[10][LogitRegr.N * LogitRegr.M + 1];
 		int err = 0;
 		for (int k = 0; k < 10; ++k) {
 			StringTokenizer st = new StringTokenizer(br.readLine());
-			w0[k] = Double.parseDouble(st.nextToken());
 			for (int i = 0; i < LogitRegr.N; ++i) {
 				for (int j = 0; j < LogitRegr.M; ++j) {
 					w[k][i * LogitRegr.N + j] = Double.parseDouble(st
 							.nextToken());
 				}
 			}
+			w[k][LogitRegr.N * LogitRegr.M] = Double
+					.parseDouble(st.nextToken());
 		}
 
-		double cur[] = new double[LogitRegr.N * LogitRegr.M], val[] = new double[10], max;
+		double cur[] = new double[LogitRegr.N * LogitRegr.M + 1], val[] = new double[10], max;
 		int num, maxn;
 		for (int c = 0; c < COUNT; ++c) {
 			if ((c + 1) % 1000 == 0) {
@@ -47,8 +48,10 @@ public class CheckLogit {
 				}
 			}
 
+			cur[LogitRegr.N * LogitRegr.M] = 1;
+
 			for (int i = 0; i < 10; ++i) {
-				val[i] = Runner.mult(cur, w[i]) + w0[i];
+				val[i] = Runner.mult(cur, w[i]);
 			}
 
 			maxn = 0;
