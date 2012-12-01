@@ -15,7 +15,7 @@ import org.apache.commons.math3.util.FastMath;
 public class Runner implements Runnable {
 
 	public static final int MAX_EVAL = 30000;
-	public static final double INIT = 0;
+	public static final double INIT = 0, REG_CONST = 50;
 
 	private String out;
 	private int myNum;
@@ -37,9 +37,10 @@ public class Runner implements Runnable {
 		double w[] = new double[LogitRegr.N * LogitRegr.M + 1];
 		Arrays.fill(w, INIT);
 
-		DifferentiableMultivariateFunction f = new Logit(myNum, x, y);
+		DifferentiableMultivariateFunction f = new Logit(myNum, x, y, REG_CONST);
 		NonLinearConjugateGradientOptimizer opt = new NonLinearConjugateGradientOptimizer(
-				ConjugateGradientFormula.POLAK_RIBIERE, new SimpleValueChecker(0, 1));
+				ConjugateGradientFormula.POLAK_RIBIERE, new SimpleValueChecker(
+						0, 0.1));
 		PointValuePair p = opt.optimize(MAX_EVAL, f, GoalType.MINIMIZE, w);
 
 		try {

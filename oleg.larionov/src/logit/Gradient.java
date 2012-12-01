@@ -4,13 +4,14 @@ import org.apache.commons.math3.analysis.MultivariateVectorFunction;
 
 public class Gradient implements MultivariateVectorFunction {
 
-	public double x[][];
+	public double x[][], c;
 	public int y[], myNum;
 
-	public Gradient(int myNum, double[][] x, int[] y) {
+	public Gradient(int myNum, double[][] x, int[] y, double c) {
 		this.x = x;
 		this.y = y;
 		this.myNum = myNum;
+		this.c = c;
 	}
 
 	@Override
@@ -23,6 +24,10 @@ public class Gradient implements MultivariateVectorFunction {
 				ans[j] += -1.0 * trY * x[i][j]
 						* Runner.sigma(-1.0 * trY * scalar);
 			}
+		}
+
+		for (int i = 0; i < point.length; ++i) {
+			ans[i] += (point[i] >= 0 ? 1.0 : -1.0) / c;
 		}
 		return ans;
 	}
