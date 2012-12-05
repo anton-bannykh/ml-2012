@@ -1,7 +1,7 @@
-import ru.ifmo.ctd.rost.ml.{IDX3Reader, MnistInputStream, IDX1Reader}
+import java.io.File
+import ru.ifmo.ctd.rost.ml.mnistIO
 
 object Test extends App{
-  var iter = IDX3Reader.parse(new MnistInputStream(System.in))
-  Console.println(iter.length)
-  Console println("parsed")
+  implicit val relative = new File("../data/mnist").toURI .normalize()
+  Console println("done!! ")
 }
