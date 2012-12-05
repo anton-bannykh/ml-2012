@@ -43,7 +43,7 @@ public class Perceptron {
 							}
 						}
 					}
-					int kmax = 0;
+					/*int kmax = 0;
 					for (int k = 0; k < 10; ++k) {
 						if (sum[k] > sum[kmax]) {
 							kmax = k;
@@ -54,6 +54,16 @@ public class Perceptron {
 							for (int j = 0; j < columns; ++j) {
 								teta[kmax][i][j] -= ds[x].get(i, j);
 								teta[ds[x].getLabel()][i][j] += ds[x].get(i, j);
+							}
+						}
+					}*/
+					for (int k = 0; k < 10; ++k) {
+						int y = k == ds[x].getLabel() ? 1 : -1;
+						if (sum[k] * y <= 0) {
+							for (int i = 0; i < rows; ++i) {
+								for (int j = 0; j < columns; ++j) {
+									teta[k][i][j] += y * ds[x].get(i, j);
+								}
 							}
 						}
 					}
