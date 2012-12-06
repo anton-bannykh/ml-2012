@@ -4,6 +4,7 @@ import org.apache.commons.math3.analysis.DifferentiableMultivariateFunction;
 import org.apache.commons.math3.analysis.MultivariateFunction;
 import org.apache.commons.math3.analysis.MultivariateVectorFunction;
 import org.apache.commons.math3.util.FastMath;
+import ru.ifmo.ctddev.baidarov.util.Test;
 
 /**
  * Created with IntelliJ IDEA.
