@@ -1,4 +1,4 @@
-package ru.ifmo.ctddev.baidarov.perceptron;
+package ru.ifmo.ctddev.baidarov.logisticregression;
 
 import ru.ifmo.ctddev.baidarov.util.Reader;
 import ru.ifmo.ctddev.baidarov.util.Test;
@@ -7,19 +7,18 @@ import ru.ifmo.ctddev.baidarov.util.Test;
  * Created with IntelliJ IDEA.
  * User: Baidarov Andrew
  * Date: 03.12.12
- * Time: 17:14
+ * Time: 23:44
  */
 public class Main {
-    public static Perceptron perceptron;
+    private static Classifier classifier;
 
     public static void teach() {
         Test[] trainingSet = Reader.read("train-images.idx3-ubyte", "train-labels.idx1-ubyte");
-        perceptron = new Perceptron(trainingSet, 10);
+        classifier = new Classifier(trainingSet, 10);
     }
 
-
     public static void test() {
-        if (perceptron == null) {
+        if (classifier == null) {
             System.out.println("First teach, then test!");
             return;
         }
@@ -28,7 +27,7 @@ public class Main {
         int errors = 0;
 
         for (Test test : tests) {
-            if (!perceptron.test(test)) {
+            if (!classifier.test(test)) {
                 errors++;
             }
         }
@@ -41,4 +40,5 @@ public class Main {
         teach();
         test();
     }
+
 }
