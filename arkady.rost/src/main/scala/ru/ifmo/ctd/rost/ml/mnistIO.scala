@@ -1,11 +1,10 @@
 package ru.ifmo.ctd.rost.ml
 
-import java.io.{EOFException, BufferedInputStream, InputStream}
+import java.io._
 import java.net.URI
 import java.util.zip.GZIPInputStream
 
 object mnistIO {
-  private[this] implicit def wrapURI(u : URI) : GZIPInputStream = new GZIPInputStream(u.toURL.openStream)
 
   def t10k_images(implicit relative:URI) = IDX3Reader from relative.resolve("t10k-images-idx3-ubyte.gz")
   def t10k_labels(implicit relative:URI) = IDX1Reader from relative.resolve("t10k-labels-idx1-ubyte.gz")
@@ -14,49 +13,42 @@ object mnistIO {
 }
 
 
-class MnistInputStream(stream : InputStream) extends BufferedInputStream(stream) {
-  val bb = new Array[Byte](4)
-  def readInt : Int = {
-    if (read(bb, 0, 4) < 4) throw new EOFException()
-    bb(0) << 24 | (bb(1) & 0xFF) << 16 | (bb(2) & 0xFF) << 8 | (bb(3) & 0xFF)
+class MnistInputStream(stream : InputStream) extends DataInputStream(new BufferedInputStream(stream))
+
+trait MnistReader {
+  protected def autoClose[T](in : MnistInputStream, f : MnistInputStream => T) : T = {
+    try { f(in) }  finally {  in close()  }
   }
 }
 
-class IDX1Reader private(in : MnistInputStream, private[this] var count : Int) extends Iterator[Int] {
-  def hasNext = count > 0
 
-  def next() = {
-    count = count - 1
-    in read()
-  }
-}
-
-object IDX1Reader {
-  def from(stream : InputStream) : IDX1Reader = {
-    val in = new MnistInputStream(stream)
+object IDX1Reader extends MnistReader {
+  def read (in : MnistInputStream)= {
     val rMagic = in.readInt
     assert(rMagic == 0x00000801, "magic number 0x00000801")
-    new IDX1Reader(in, in.readInt)
+    val size = in.readInt
+    Stream.continually(in.readByte.toDouble).take(size).toArray
+  }
+
+  def from(u : URI) : Array[Double] = {
+    val stream = new GZIPInputStream(u.toURL.openStream)
+    autoClose(new MnistInputStream(stream), read)
   }
 }
 
-class IDX3Reader private(in : MnistInputStream, n : Int, m : Int, private[this] var count : Int)  extends Iterator[Image] {
-  def hasNext = count > 0
-
-  def next() = {
-    count = count - 1
-    Image.newBuilder(n, m).fromStream(in).build
-  }
-}
-
-object IDX3Reader {
-  def from(in: InputStream) : IDX3Reader = {
-    val stream = new MnistInputStream(in)
+object IDX3Reader extends MnistReader{
+  def read(stream : MnistInputStream) = {
     val rMagic = stream.readInt
     assert(rMagic == 0x00000803, "magic number 0x00000803")
     val size = stream.readInt
     val rows = stream.readInt
     val columns = stream.readInt
-    new IDX3Reader(stream, rows, columns, size)
+    def readFrame =  Stream.continually(stream.readByte.toDouble).take(rows * columns).toArray
+    Stream.continually(readFrame).take(size).toArray
+  }
+
+  def from(u : URI) : Array[Array[Double]] = {
+    val in = new GZIPInputStream(u.toURL.openStream)
+    autoClose(new MnistInputStream(in), read)
   }
 }
