@@ -8,14 +8,14 @@ object Perceptron {
   def extend(vec : RealVector) = vec.append(1.0)
 
   def learn(n : Int) : RealVector = {
-    val theta = new ArrayRealVector(28 * 28, 1)
+    val theta = new ArrayRealVector(28 * 28 + 1, 1)
 
-    val pairs = mnistIO.train_images.map(x => new ArrayRealVector(x, false)) zip mnistIO.train_labels
+    val pairs = mnistIO.train_images.map(x => new ArrayRealVector(x, false).append(1)) zip mnistIO.train_labels
 
     //improve
     def iteration(theta : RealVector) : RealVector = {
       pairs.foldLeft(theta)((acc , p ) => {
-        val scalar = theta.dotProduct(p._1)
+        val scalar = acc.dotProduct(p._1)
         val sign = if (p._2.toInt == n) 1 else -1
         if (scalar * sign < 0) acc.add(p._1.mapMultiply(sign)) else acc
       })
@@ -26,7 +26,7 @@ object Perceptron {
   }
 
   def test(theta : RealVector, n : Int) : Double = {
-    val pairs = mnistIO.t10k_images.map(x => new ArrayRealVector(x, false)) zip mnistIO.t10k_labels
+    val pairs = mnistIO.t10k_images.map(x => new ArrayRealVector(x, false).append(1)) zip mnistIO.t10k_labels
     pairs.foldLeft(0)((acc, p) => {
       val sign = if (p._2.toInt == n) 1 else -1
       if (theta.dotProduct(p._1) * sign > 0) acc + 1 else acc
