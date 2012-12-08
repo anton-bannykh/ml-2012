@@ -1,10 +1,11 @@
 package svm;
 
+import java.io.BufferedReader;
 import java.io.DataInputStream;
 import java.io.File;
 import java.io.FileInputStream;
+import java.io.FileReader;
 import java.io.PrintWriter;
-import java.util.Scanner;
 import java.util.concurrent.CountDownLatch;
 import java.util.concurrent.LinkedBlockingQueue;
 import java.util.concurrent.ThreadPoolExecutor;
@@ -12,7 +13,7 @@ import java.util.concurrent.TimeUnit;
 
 public class SVM {
 
-	public static final Kernel k = new Scalar();
+	public static final Kernel k = new Gaussian(0.0078125);
 
 	public static final int N = 28, M = 28, COUNT = 60000;
 	public static final String IM = "train.imgs", LAB = "labels.imgs";
@@ -21,7 +22,6 @@ public class SVM {
 	public static void main(String[] args) throws Exception {
 		double[][] x = new double[COUNT][N * M];
 		int[] y = new int[COUNT];
-
 		try {
 			DataInputStream imgs = new DataInputStream(new FileInputStream(IM)), labels = new DataInputStream(
 					new FileInputStream(LAB));
@@ -53,15 +53,17 @@ public class SVM {
 		ThreadPoolExecutor tpe = new ThreadPoolExecutor(proc, proc, 1,
 				TimeUnit.SECONDS, new LinkedBlockingQueue<Runnable>());
 		for (int i = 0; i < 10; ++i) {
-			tpe.execute(new Runner(i, x, y, lock));
+			tpe.execute(new Runner(i, x, y, k, lock));
 		}
 		lock.await();
 
 		tpe.shutdownNow();
 		PrintWriter pw = new PrintWriter("out.txt");
 		for (int i = 0; i < 10; ++i) {
-			Scanner sc = new Scanner(new File("out/" + i + ".txt"));
-			pw.println(sc.nextLine());
+			try (BufferedReader br = new BufferedReader(new FileReader(
+					new File("out/" + i + ".txt")))) {
+				pw.println(br.readLine());
+			}
 		}
 		pw.close();
 		System.out.println("out.txt created");
