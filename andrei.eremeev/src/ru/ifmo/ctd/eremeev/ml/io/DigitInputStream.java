@@ -16,35 +16,19 @@ public class DigitInputStream {
 	private int columns;
 	
 	public DigitInputStream(String labelsFileName, String imagesFileName) throws IOException {
-		try {
-			labelStream = new DataInputStream(new FileInputStream(labelsFileName));
-			imageStream = new DataInputStream(new FileInputStream(imagesFileName));
-			labelStream.skip(4);
-			imageStream.skip(4);
-			numberOfImages = labelStream.readInt();
-			if (numberOfImages != imageStream.readInt()) {
-				throw new IOException();
-			}
-			if ((rows = imageStream.readInt()) < 0) {
-				throw new IllegalArgumentException("Number of rows is not positive : " + rows);
-			}
-			if ((columns = imageStream.readInt()) < 0) {
-				throw new IllegalArgumentException("Number of columns is not positive : " + columns);
-			}
-		} catch (IOException e) {
-			if (labelStream != null) {
-				try {
-					labelStream.close();
-				} catch (IOException ex) {
-				}
-			}
-			if (imageStream != null) {
-				try {
-					imageStream.close();
-				} catch (IOException ex) {
-				}
-			}
-			throw e;
+		labelStream = new DataInputStream(new FileInputStream(labelsFileName));
+		imageStream = new DataInputStream(new FileInputStream(imagesFileName));
+		labelStream.skip(4);
+		imageStream.skip(4);
+		numberOfImages = labelStream.readInt();
+		if (numberOfImages != imageStream.readInt()) {
+			throw new IOException();
+		}
+		if ((rows = imageStream.readInt()) < 0) {
+			throw new IllegalArgumentException("Number of rows is not positive : " + rows);
+		}
+		if ((columns = imageStream.readInt()) < 0) {
+			throw new IllegalArgumentException("Number of columns is not positive : " + columns);
 		}
 	}
 	
@@ -66,18 +50,10 @@ public class DigitInputStream {
 	
 	public Digit readDigit() throws IOException {
 		byte label = labelStream.readByte();
-		int[][] image = new int[rows][columns];
 		byte[] b = new byte[rows * columns];
 		imageStream.readFully(b);
-		int k = 0;
-		for (int i = 0; i < rows; ++i) {
-			for (int j = 0; j < columns; ++j) {
-				image[i][j] = b[k] < 0 ? 256 + b[k] : b[k];
-				++k;
-			}
-		}
 		++numberOfReadImages;
-		return new Digit(label, image);
+		return new Digit(label, b);
 	}
 	
 	public void close() throws IOException {
