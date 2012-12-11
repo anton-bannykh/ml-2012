@@ -1,37 +1,54 @@
 package ru.ifmo.ctd.rost.ml
 
-import java.io.{EOFException, BufferedInputStream, InputStream}
+import java.io._
+import java.net.URI
+import java.util.zip.GZIPInputStream
+
+object mnistIO {
+
+  def t10k_images(implicit relative:URI) = IDX3Reader from relative.resolve("t10k-images-idx3-ubyte.gz")
+  def t10k_labels(implicit relative:URI) = IDX1Reader from relative.resolve("t10k-labels-idx1-ubyte.gz")
+  def train_images(implicit relative:URI) = IDX3Reader from relative.resolve("train-images-idx3-ubyte.gz")
+  def train_labels(implicit relative:URI) = IDX1Reader from relative.resolve("train-labels-idx1-ubyte.gz")
+}
 
 
-class MnistInputStream(stream : InputStream) extends BufferedInputStream(stream) {
-  val bb = new Array[Byte](4)
-  def readInt : Int = {
-    if (read(bb, 0, 4) < 4) throw new EOFException()
-    bb(0) << 24 | (bb(1) & 0xFF) << 16 | (bb(2) & 0xFF) << 8 | (bb(3) & 0xFF)
+class MnistInputStream(stream : InputStream) extends DataInputStream(new BufferedInputStream(stream))
+
+trait MnistReader {
+  protected def autoClose[T](in : MnistInputStream, f : MnistInputStream => T) : T = {
+    try { f(in) }  finally {  in close()  }
   }
 }
 
-trait MnistReader[T] {
-  def parse(stream : MnistInputStream) : T
-}
 
-object IDX1Reader extends MnistReader[Stream[Int]] {
-  def parse(stream: MnistInputStream) = {
-    val rMagic = stream.readInt
+object IDX1Reader extends MnistReader {
+  def read (in : MnistInputStream)= {
+    val rMagic = in.readInt
     assert(rMagic == 0x00000801, "magic number 0x00000801")
-    val size = stream.readInt
-    Stream.continually(stream.read).take(size)
+    val size = in.readInt
+    Stream.continually(in.readByte.toDouble).take(size).toArray
+  }
+
+  def from(u : URI) : Array[Double] = {
+    val stream = new GZIPInputStream(u.toURL.openStream)
+    autoClose(new MnistInputStream(stream), read)
   }
 }
 
-object IDX3Reader extends MnistReader[Stream[Array[Int]]] {
-  def parse(stream: MnistInputStream) = {
+object IDX3Reader extends MnistReader{
+  def read(stream : MnistInputStream) = {
     val rMagic = stream.readInt
     assert(rMagic == 0x00000803, "magic number 0x00000803")
     val size = stream.readInt
     val rows = stream.readInt
     val columns = stream.readInt
-    def readFrame =  Stream.continually(stream.read).take(rows * columns).toArray
-    Stream.continually(readFrame).take(size)
+    def readFrame =  Stream.continually(stream.readByte.toDouble).take(rows * columns).toArray
+    Stream.continually(readFrame).take(size).toArray
+  }
+
+  def from(u : URI) : Array[Array[Double]] = {
+    val in = new GZIPInputStream(u.toURL.openStream)
+    autoClose(new MnistInputStream(in), read)
   }
 }
