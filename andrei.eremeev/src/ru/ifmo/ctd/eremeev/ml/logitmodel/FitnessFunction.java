@@ -10,15 +10,20 @@ import ru.ifmo.ctd.eremeev.ml.util.Digit;
 public class FitnessFunction implements DifferentiableMultivariateFunction {
 
 	private Digit[] ds;
-	private double lambda;
 	private int label;
 	private int n;
 	
-	public FitnessFunction(Digit[] ds, int label) {
+	private double lambda;
+	private double eta;
+	
+	private long cnt = 0;
+	
+	public FitnessFunction(Digit[] ds, int label, double lambda, double eta) {
 		this.ds = ds;
-		this.lambda = 0;
 		this.label = label;
 		this.n = ds[0].getN();
+		this.lambda = lambda;
+		this.eta = eta;
 	}
 	
 	@Override
@@ -43,11 +48,15 @@ public class FitnessFunction implements DifferentiableMultivariateFunction {
 					int y = d.getLabel() == label ? 1 : -1;
 					double p = P(d.imageToDoubleArray(), x, y);
 					for (int i = 0; i < n; ++i) {
-						ans[i] -= y * d.getDouble(i) * (1 - p);
+						ans[i] += eta * y * d.getDouble(i) * (1 - p);
 					}
 				}
 				for (int i = 0; i < n; ++i) {
 					ans[i] += lambda * x[i];
+				}
+				++cnt;
+				if (cnt % 10 == 0) {
+					System.out.println("Label : " + label + " count : " + cnt);
 				}
 				return ans;
 			}
@@ -63,7 +72,7 @@ public class FitnessFunction implements DifferentiableMultivariateFunction {
 				for (Digit d : ds) {
 					int y = d.getLabel() == label ? 1 : -1;
 					double p = P(d.imageToDoubleArray(), x, y);
-					ans -= y * d.getDouble(k) * (1 - p);
+					ans += eta * y * d.getDouble(k) * (1 - p);
 				}
 				ans += lambda * x[k];
 				return ans;

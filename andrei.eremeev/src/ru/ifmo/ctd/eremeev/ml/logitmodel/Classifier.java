@@ -15,6 +15,9 @@ import ru.ifmo.ctd.eremeev.ml.util.Utils;
 public class Classifier {
 
 	private static final int ITERATIONS = 10000;
+	private static final double LAMBDA = 0;
+	private static final double ETA = -1;
+	private static final double EPS = 0.01;
 	
 	public static void main(String[] args) {
 		long start = System.currentTimeMillis();
@@ -37,7 +40,7 @@ public class Classifier {
 			ExecutorService executor = Executors.newFixedThreadPool(Runtime.getRuntime().availableProcessors());
 			CountDownLatch count = new CountDownLatch(10);
 			for (int k = 0; k < 10; ++k) {
-				executor.execute(new Teacher(ds, k, teta[k], ITERATIONS, count));
+				executor.execute(new Teacher(ds, k, teta[k], ITERATIONS, count, LAMBDA, ETA, EPS));
 			}
 			count.await();
 			
