@@ -20,6 +20,7 @@ namespace {
 
         std::streamsize write(const char* s, std::streamsize n) {
             std::copy(s, s + n, std::back_inserter(result_));
+            return n;
         }
     private:
         ByteVector& result_;
