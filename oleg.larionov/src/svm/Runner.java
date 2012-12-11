@@ -13,8 +13,7 @@ import org.apache.commons.math3.util.FastMath;
 
 public class Runner implements Runnable {
 
-	public static final double REG_CONST = 2, EPSILON = 0.1, GAMMA = 0.0078125,
-			TOL = 1e-3, ZERO = 1e-6;
+	public static final double REG_CONST = 2.82842, TOL = 1e-2, ZERO = 1e-8;
 
 	private String out;
 	private int myNum;
@@ -225,13 +224,17 @@ public class Runner implements Runnable {
 		double bn = (b1 + b2) / 2;
 		recalc(num1, num2, a1, a2, bn);
 
-		// System.out.println("--");
 		System.out.println("num " + myNum + " alpha " + num1 + " " + num2
 				+ " changed");
-		// System.out.println("num " + myNum + " alpha " + num2 +
-		// " changed from "
-		// + alpha[num2] + " to " + a2);
-		// System.out.println("--");
+
+//		synchronized (System.out) {
+//			System.out.println("--");
+//			System.out.println("num " + myNum + " alpha " + num1
+//					+ " changed from " + alpha[num1] + " to " + a1);
+//			System.out.println("num " + myNum + " alpha " + num2
+//					+ " changed from " + alpha[num2] + " to " + a2);
+//			System.out.println("--");
+//		}
 
 		alpha[num1] = a1;
 		alpha[num2] = a2;

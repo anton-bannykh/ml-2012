@@ -11,20 +11,35 @@ import java.util.StringTokenizer;
 
 public class CheckSVM {
 
-	public static final Kernel k = new Gaussian(0.0078125);
-
 	public static final String IM = "cimgs", LAB = "clabels",
 			INPUT = "out.txt", TRAIN_IMGS = "train.imgs",
 			TRAIN_LABELS = "labels.imgs";
 	public static final int TRAIN_COUNT = 60000, CHECK_COUNT = 10000;
+	
+	private static Kernel k;
 
 	public static void main(String[] args) {
+		double mult, shift;
 		List<List<Pair>> alpha = new ArrayList<List<Pair>>();
 		double b[] = new double[10];
 		try (BufferedReader br = new BufferedReader(new InputStreamReader(
 				new FileInputStream(INPUT)))) {
+			StringTokenizer st = new StringTokenizer(br.readLine());
+			shift = Double.parseDouble(st.nextToken());
+			mult = Double.parseDouble(st.nextToken());
+			Double.parseDouble(st.nextToken()); // reg_const
+			switch (Kernels.valueOf(st.nextToken())) {
+			case GAUSSIAN:
+				k = new Gaussian(Double.parseDouble(st.nextToken()));
+				break;
+
+			case SCALAR:
+				k = new Scalar();
+				break;
+			}
+
 			for (int i = 0; i < 10; ++i) {
-				StringTokenizer st = new StringTokenizer(br.readLine() + " ");
+				st = new StringTokenizer(br.readLine() + " ");
 				alpha.add(new ArrayList<Pair>());
 				int num;
 				double cur;
@@ -52,7 +67,7 @@ public class CheckSVM {
 			trainLabels.skip(8);
 			for (int i = 0; i < TRAIN_COUNT; ++i) {
 				for (int j = 0; j < SVM.N * SVM.M; ++j) {
-					x[i][j] = (trainImgs.read() - SVM.SHIFT) / SVM.MULT;
+					x[i][j] = (trainImgs.read() - shift) / mult;
 				}
 				y = trainLabels.read();
 				for (int j = 0; j < 10; ++j) {
@@ -77,7 +92,7 @@ public class CheckSVM {
 			double cur[] = new double[SVM.N * SVM.M], val[] = new double[10];
 			for (int i = 0; i < CHECK_COUNT; ++i) {
 				for (int j = 0; j < cur.length; ++j) {
-					cur[j] = (checkImgs.read() - SVM.SHIFT) / SVM.MULT;
+					cur[j] = (checkImgs.read() - shift) / mult;
 				}
 
 				for (int j = 0; j < 10; ++j) {
