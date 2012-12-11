@@ -8,10 +8,11 @@ class ImagesHolder {
 public:
     ImagesHolder(std::string const& gzFileNameImages, std::string const& gzFileNameLabels);
 
-    ByteVector::const_iterator getImageBegin(size_t imageNum) const;
-    ByteVector::const_iterator getImageEnd(size_t imageNum) const;
+    // Returns iterator to image's start
+    ByteVector::const_iterator operator[](size_t imageNum) const;
 
-    uint8_t getLabel(size_t imageNum) const;
+    // Returns label
+    uint8_t operator()(size_t imageNum) const;
 
     size_t size() const   { return count_; }
     size_t width() const  { return width_; }

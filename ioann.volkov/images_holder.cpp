@@ -54,14 +54,10 @@ ImagesHolder::ImagesHolder(std::string const& gzFileNameImages, std::string cons
     width_ = getUInt32_BE(images_.begin() + 12);
 }
 
-ByteVector::const_iterator ImagesHolder::getImageBegin(size_t imageNum) const {
+ByteVector::const_iterator ImagesHolder::operator[](size_t imageNum) const {
     return images_.begin() + 16 + width_ * height_ * imageNum;
 }
 
-ByteVector::const_iterator ImagesHolder::getImageEnd(size_t imageNum) const {
-    return getImageBegin(imageNum + 1);
-}
-
-uint8_t ImagesHolder::getLabel(size_t imageNum) const {
+uint8_t ImagesHolder::operator()(size_t imageNum) const {
     return labels_[8 + imageNum];
 }
