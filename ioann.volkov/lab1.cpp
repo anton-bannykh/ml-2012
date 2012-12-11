@@ -5,12 +5,14 @@
 
 #include "images_holder.h"
 
-int f(ByteVector::const_iterator ib, std::vector<int> const& Q) {
+int f(ByteVector::const_iterator ib, std::vector<int> const& Q, int* result = 0) {
     int res;
     for (size_t i = 0; i < Q.size(); ++i) {
         res += Q[i] * (*ib);
         ++ib;
     }
+    if (result)
+        *result = res;
     return (res >= 0) ? 1 : -1;
 }
 
@@ -34,7 +36,7 @@ int main() {
     assert(trainIH.width() == testIH.width() && trainIH.height() == testIH.height());
 
     size_t N = trainIH.width() * trainIH.height();
-    size_t steps = 1;
+    size_t steps = 2;
 
     std::vector<int> Q[10];
     for (size_t z = 0; z < 10; ++z) {
@@ -62,17 +64,22 @@ int main() {
         boost::timer::auto_cpu_timer t;
 
         for (size_t i = 0; i < testIH.size(); ++i) {
+            int ans = -1;
+            int maxRes = 0;
             for (size_t z = 0; z < 10; ++z) {
-                int correctRes = (testIH(i) == z ? 1 : -1);
-                if (f(testIH[i], Q[z]) != correctRes) {
-                    ++errorsCount;
-                    //std::cout << z << " " << static_cast<int>(testIH(i)) << std::endl;
+                int res;
+                f(testIH[i], Q[z], &res);
+                if (res >= maxRes) {
+                    maxRes = res;
+                    ans = z;
                 }
             }
+            if (ans != testIH(i))
+                ++errorsCount;
         }
     }
 
-    std::cout << "Test error rate: " << static_cast<double>(errorsCount) / (testIH.size() * 10) << std::endl << std::flush;
+    std::cout << "Test error rate: " << static_cast<double>(errorsCount) / testIH.size() << std::endl << std::flush;
 
     return 0;
 }
