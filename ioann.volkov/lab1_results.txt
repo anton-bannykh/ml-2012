@@ -1,0 +1,301 @@
+Loading data from archives: 0.453494s wall, 0.410000s user + 0.040000s system = 0.450000s CPU (99.2%)
+Step 1: 0.290464s wall, 0.290000s user + 0.000000s system = 0.290000s CPU (99.8%)
+Testing: 0.046957s wall, 0.040000s user + 0.000000s system = 0.040000s CPU (85.2%)
+Test error rate: 26.7%
+Step 2: 0.291272s wall, 0.290000s user + 0.000000s system = 0.290000s CPU (99.6%)
+Testing: 0.047159s wall, 0.050000s user + 0.000000s system = 0.050000s CPU (106.0%)
+Test error rate: 24.21%
+Step 3: 0.289219s wall, 0.290000s user + 0.000000s system = 0.290000s CPU (100.3%)
+Testing: 0.046869s wall, 0.050000s user + 0.000000s system = 0.050000s CPU (106.7%)
+Test error rate: 25.31%
+Step 4: 0.287825s wall, 0.280000s user + 0.000000s system = 0.280000s CPU (97.3%)
+Testing: 0.047323s wall, 0.050000s user + 0.000000s system = 0.050000s CPU (105.7%)
+Test error rate: 24.3%
+Step 5: 0.291438s wall, 0.290000s user + 0.000000s system = 0.290000s CPU (99.5%)
+Testing: 0.047117s wall, 0.050000s user + 0.000000s system = 0.050000s CPU (106.1%)
+Test error rate: 22.3%
+Step 6: 0.288264s wall, 0.290000s user + 0.000000s system = 0.290000s CPU (100.6%)
+Testing: 0.046917s wall, 0.040000s user + 0.000000s system = 0.040000s CPU (85.3%)
+Test error rate: 23.8%
+Step 7: 0.288012s wall, 0.290000s user + 0.000000s system = 0.290000s CPU (100.7%)
+Testing: 0.046974s wall, 0.050000s user + 0.000000s system = 0.050000s CPU (106.4%)
+Test error rate: 23.26%
+Step 8: 0.291156s wall, 0.290000s user + 0.000000s system = 0.290000s CPU (99.6%)
+Testing: 0.047037s wall, 0.040000s user + 0.000000s system = 0.040000s CPU (85.0%)
+Test error rate: 24.76%
+Step 9: 0.288484s wall, 0.290000s user + 0.000000s system = 0.290000s CPU (100.5%)
+Testing: 0.046980s wall, 0.050000s user + 0.000000s system = 0.050000s CPU (106.4%)
+Test error rate: 23.63%
+Step 10: 0.288058s wall, 0.290000s user + 0.000000s system = 0.290000s CPU (100.7%)
+Testing: 0.047015s wall, 0.040000s user + 0.000000s system = 0.040000s CPU (85.1%)
+Test error rate: 23.98%
+Step 11: 0.291563s wall, 0.290000s user + 0.000000s system = 0.290000s CPU (99.5%)
+Testing: 0.047190s wall, 0.050000s user + 0.000000s system = 0.050000s CPU (106.0%)
+Test error rate: 21.68%
+Step 12: 0.288079s wall, 0.290000s user + 0.000000s system = 0.290000s CPU (100.7%)
+Testing: 0.047012s wall, 0.050000s user + 0.000000s system = 0.050000s CPU (106.4%)
+Test error rate: 21.27%
+Step 13: 0.289669s wall, 0.280000s user + 0.000000s system = 0.280000s CPU (96.7%)
+Testing: 0.047784s wall, 0.050000s user + 0.000000s system = 0.050000s CPU (104.6%)
+Test error rate: 22.84%
+Step 14: 0.291487s wall, 0.290000s user + 0.000000s system = 0.290000s CPU (99.5%)
+Testing: 0.047141s wall, 0.050000s user + 0.000000s system = 0.050000s CPU (106.1%)
+Test error rate: 20.76%
+Step 15: 0.288411s wall, 0.290000s user + 0.000000s system = 0.290000s CPU (100.6%)
+Testing: 0.046996s wall, 0.040000s user + 0.000000s system = 0.040000s CPU (85.1%)
+Test error rate: 24.79%
+Step 16: 0.287576s wall, 0.290000s user + 0.000000s system = 0.290000s CPU (100.8%)
+Testing: 0.046974s wall, 0.050000s user + 0.000000s system = 0.050000s CPU (106.4%)
+Test error rate: 24.39%
+Step 17: 0.292860s wall, 0.290000s user + 0.000000s system = 0.290000s CPU (99.0%)
+Testing: 0.046997s wall, 0.050000s user + 0.000000s system = 0.050000s CPU (106.4%)
+Test error rate: 22.5%
+Step 18: 0.288850s wall, 0.280000s user + 0.000000s system = 0.280000s CPU (96.9%)
+Testing: 0.046914s wall, 0.050000s user + 0.000000s system = 0.050000s CPU (106.6%)
+Test error rate: 20.81%
+Step 19: 0.287963s wall, 0.290000s user + 0.000000s system = 0.290000s CPU (100.7%)
+Testing: 0.046954s wall, 0.040000s user + 0.000000s system = 0.040000s CPU (85.2%)
+Test error rate: 22.07%
+Step 20: 0.291471s wall, 0.300000s user + 0.000000s system = 0.300000s CPU (102.9%)
+Testing: 0.047118s wall, 0.040000s user + 0.000000s system = 0.040000s CPU (84.9%)
+Test error rate: 22.49%
+Step 21: 0.288554s wall, 0.290000s user + 0.000000s system = 0.290000s CPU (100.5%)
+Testing: 0.046949s wall, 0.050000s user + 0.000000s system = 0.050000s CPU (106.5%)
+Test error rate: 23.76%
+Step 22: 0.287740s wall, 0.280000s user + 0.000000s system = 0.280000s CPU (97.3%)
+Testing: 0.046971s wall, 0.050000s user + 0.000000s system = 0.050000s CPU (106.4%)
+Test error rate: 23.02%
+Step 23: 0.292218s wall, 0.290000s user + 0.000000s system = 0.290000s CPU (99.2%)
+Testing: 0.047033s wall, 0.050000s user + 0.000000s system = 0.050000s CPU (106.3%)
+Test error rate: 22.74%
+Step 24: 0.287890s wall, 0.290000s user + 0.000000s system = 0.290000s CPU (100.7%)
+Testing: 0.046906s wall, 0.040000s user + 0.000000s system = 0.040000s CPU (85.3%)
+Test error rate: 24.07%
+Step 25: 0.287605s wall, 0.290000s user + 0.000000s system = 0.290000s CPU (100.8%)
+Testing: 0.046974s wall, 0.050000s user + 0.000000s system = 0.050000s CPU (106.4%)
+Test error rate: 24.1%
+Step 26: 0.292001s wall, 0.290000s user + 0.000000s system = 0.290000s CPU (99.3%)
+Testing: 0.047011s wall, 0.050000s user + 0.000000s system = 0.050000s CPU (106.4%)
+Test error rate: 23.09%
+Step 27: 0.287924s wall, 0.280000s user + 0.000000s system = 0.280000s CPU (97.2%)
+Testing: 0.047008s wall, 0.050000s user + 0.000000s system = 0.050000s CPU (106.4%)
+Test error rate: 18.71%
+Step 28: 0.287638s wall, 0.290000s user + 0.000000s system = 0.290000s CPU (100.8%)
+Testing: 0.046979s wall, 0.040000s user + 0.000000s system = 0.040000s CPU (85.1%)
+Test error rate: 21.91%
+Step 29: 0.291412s wall, 0.290000s user + 0.000000s system = 0.290000s CPU (99.5%)
+Testing: 0.047418s wall, 0.050000s user + 0.000000s system = 0.050000s CPU (105.4%)
+Test error rate: 21.64%
+Step 30: 0.303732s wall, 0.300000s user + 0.000000s system = 0.300000s CPU (98.8%)
+Testing: 0.047416s wall, 0.050000s user + 0.000000s system = 0.050000s CPU (105.4%)
+Test error rate: 22.19%
+Step 31: 0.287507s wall, 0.290000s user + 0.000000s system = 0.290000s CPU (100.9%)
+Testing: 0.046907s wall, 0.040000s user + 0.000000s system = 0.040000s CPU (85.3%)
+Test error rate: 21.55%
+Step 32: 0.310528s wall, 0.310000s user + 0.000000s system = 0.310000s CPU (99.8%)
+Testing: 0.055374s wall, 0.060000s user + 0.000000s system = 0.060000s CPU (108.4%)
+Test error rate: 21.82%
+Step 33: 0.292442s wall, 0.290000s user + 0.000000s system = 0.290000s CPU (99.2%)
+Testing: 0.047296s wall, 0.050000s user + 0.000000s system = 0.050000s CPU (105.7%)
+Test error rate: 22.05%
+Step 34: 0.289968s wall, 0.290000s user + 0.000000s system = 0.290000s CPU (100.0%)
+Testing: 0.047140s wall, 0.040000s user + 0.000000s system = 0.040000s CPU (84.9%)
+Test error rate: 22.64%
+Step 35: 0.292855s wall, 0.300000s user + 0.000000s system = 0.300000s CPU (102.4%)
+Testing: 0.047281s wall, 0.040000s user + 0.000000s system = 0.040000s CPU (84.6%)
+Test error rate: 23.62%
+Step 36: 0.289411s wall, 0.290000s user + 0.000000s system = 0.290000s CPU (100.2%)
+Testing: 0.047087s wall, 0.050000s user + 0.000000s system = 0.050000s CPU (106.2%)
+Test error rate: 20.35%
+Step 37: 0.287533s wall, 0.280000s user + 0.000000s system = 0.280000s CPU (97.4%)
+Testing: 0.047476s wall, 0.050000s user + 0.000000s system = 0.050000s CPU (105.3%)
+Test error rate: 24.48%
+Step 38: 0.292127s wall, 0.290000s user + 0.000000s system = 0.290000s CPU (99.3%)
+Testing: 0.047223s wall, 0.050000s user + 0.000000s system = 0.050000s CPU (105.9%)
+Test error rate: 21.71%
+Step 39: 0.288073s wall, 0.290000s user + 0.000000s system = 0.290000s CPU (100.7%)
+Testing: 0.046829s wall, 0.040000s user + 0.000000s system = 0.040000s CPU (85.4%)
+Test error rate: 21.7%
+Step 40: 0.287804s wall, 0.290000s user + 0.000000s system = 0.290000s CPU (100.8%)
+Testing: 0.046852s wall, 0.050000s user + 0.000000s system = 0.050000s CPU (106.7%)
+Test error rate: 21.72%
+Step 41: 0.291365s wall, 0.290000s user + 0.000000s system = 0.290000s CPU (99.5%)
+Testing: 0.046939s wall, 0.050000s user + 0.000000s system = 0.050000s CPU (106.5%)
+Test error rate: 24.64%
+Step 42: 0.288831s wall, 0.280000s user + 0.000000s system = 0.280000s CPU (96.9%)
+Testing: 0.047047s wall, 0.050000s user + 0.000000s system = 0.050000s CPU (106.3%)
+Test error rate: 21.29%
+Step 43: 0.287588s wall, 0.290000s user + 0.000000s system = 0.290000s CPU (100.8%)
+Testing: 0.047054s wall, 0.040000s user + 0.000000s system = 0.040000s CPU (85.0%)
+Test error rate: 23.68%
+Step 44: 0.293563s wall, 0.300000s user + 0.000000s system = 0.300000s CPU (102.2%)
+Testing: 0.047386s wall, 0.040000s user + 0.000000s system = 0.040000s CPU (84.4%)
+Test error rate: 21.11%
+Step 45: 0.290553s wall, 0.300000s user + 0.000000s system = 0.300000s CPU (103.3%)
+Testing: 0.046902s wall, 0.040000s user + 0.000000s system = 0.040000s CPU (85.3%)
+Test error rate: 22.07%
+Step 46: 0.287296s wall, 0.290000s user + 0.000000s system = 0.290000s CPU (100.9%)
+Testing: 0.046824s wall, 0.050000s user + 0.000000s system = 0.050000s CPU (106.8%)
+Test error rate: 20.95%
+Step 47: 0.292989s wall, 0.290000s user + 0.000000s system = 0.290000s CPU (99.0%)
+Testing: 0.047124s wall, 0.040000s user + 0.000000s system = 0.040000s CPU (84.9%)
+Test error rate: 19.51%
+Step 48: 0.287942s wall, 0.290000s user + 0.000000s system = 0.290000s CPU (100.7%)
+Testing: 0.046884s wall, 0.050000s user + 0.000000s system = 0.050000s CPU (106.6%)
+Test error rate: 20.59%
+Step 49: 0.288145s wall, 0.290000s user + 0.000000s system = 0.290000s CPU (100.6%)
+Testing: 0.046957s wall, 0.040000s user + 0.000000s system = 0.040000s CPU (85.2%)
+Test error rate: 23.19%
+Step 50: 0.291005s wall, 0.290000s user + 0.000000s system = 0.290000s CPU (99.7%)
+Testing: 0.047392s wall, 0.050000s user + 0.000000s system = 0.050000s CPU (105.5%)
+Test error rate: 22.06%
+Step 51: 0.288873s wall, 0.290000s user + 0.000000s system = 0.290000s CPU (100.4%)
+Testing: 0.047000s wall, 0.050000s user + 0.000000s system = 0.050000s CPU (106.4%)
+Test error rate: 22.11%
+Step 52: 0.287608s wall, 0.280000s user + 0.000000s system = 0.280000s CPU (97.4%)
+Testing: 0.047661s wall, 0.050000s user + 0.000000s system = 0.050000s CPU (104.9%)
+Test error rate: 23.24%
+Step 53: 0.290630s wall, 0.290000s user + 0.000000s system = 0.290000s CPU (99.8%)
+Testing: 0.047059s wall, 0.040000s user + 0.000000s system = 0.040000s CPU (85.0%)
+Test error rate: 21.73%
+Step 54: 0.288257s wall, 0.290000s user + 0.000000s system = 0.290000s CPU (100.6%)
+Testing: 0.047280s wall, 0.050000s user + 0.000000s system = 0.050000s CPU (105.8%)
+Test error rate: 21.02%
+Step 55: 0.287539s wall, 0.290000s user + 0.000000s system = 0.290000s CPU (100.9%)
+Testing: 0.047784s wall, 0.050000s user + 0.000000s system = 0.050000s CPU (104.6%)
+Test error rate: 22.09%
+Step 56: 0.290696s wall, 0.280000s user + 0.000000s system = 0.280000s CPU (96.3%)
+Testing: 0.046911s wall, 0.050000s user + 0.000000s system = 0.050000s CPU (106.6%)
+Test error rate: 22.65%
+Step 57: 0.288597s wall, 0.290000s user + 0.000000s system = 0.290000s CPU (100.5%)
+Testing: 0.047031s wall, 0.040000s user + 0.000000s system = 0.040000s CPU (85.1%)
+Test error rate: 20.32%
+Step 58: 0.287785s wall, 0.290000s user + 0.000000s system = 0.290000s CPU (100.8%)
+Testing: 0.048282s wall, 0.050000s user + 0.000000s system = 0.050000s CPU (103.6%)
+Test error rate: 21.09%
+Step 59: 0.290479s wall, 0.290000s user + 0.000000s system = 0.290000s CPU (99.8%)
+Testing: 0.046980s wall, 0.050000s user + 0.000000s system = 0.050000s CPU (106.4%)
+Test error rate: 20.53%
+Step 60: 0.288446s wall, 0.280000s user + 0.000000s system = 0.280000s CPU (97.1%)
+Testing: 0.047021s wall, 0.050000s user + 0.000000s system = 0.050000s CPU (106.3%)
+Test error rate: 22.5%
+Step 61: 0.287646s wall, 0.290000s user + 0.000000s system = 0.290000s CPU (100.8%)
+Testing: 0.048707s wall, 0.050000s user + 0.000000s system = 0.050000s CPU (102.7%)
+Test error rate: 21.81%
+Step 62: 0.292502s wall, 0.290000s user + 0.000000s system = 0.290000s CPU (99.1%)
+Testing: 0.046802s wall, 0.040000s user + 0.000000s system = 0.040000s CPU (85.5%)
+Test error rate: 21.4%
+Step 63: 0.290706s wall, 0.300000s user + 0.000000s system = 0.300000s CPU (103.2%)
+Testing: 0.047496s wall, 0.040000s user + 0.000000s system = 0.040000s CPU (84.2%)
+Test error rate: 21.92%
+Step 64: 0.287468s wall, 0.290000s user + 0.000000s system = 0.290000s CPU (100.9%)
+Testing: 0.050288s wall, 0.050000s user + 0.000000s system = 0.050000s CPU (99.4%)
+Test error rate: 19.4%
+Step 65: 0.289134s wall, 0.290000s user + 0.000000s system = 0.290000s CPU (100.3%)
+Testing: 0.046932s wall, 0.050000s user + 0.000000s system = 0.050000s CPU (106.5%)
+Test error rate: 26.05%
+Step 66: 0.289608s wall, 0.280000s user + 0.000000s system = 0.280000s CPU (96.7%)
+Testing: 0.048105s wall, 0.050000s user + 0.000000s system = 0.050000s CPU (103.9%)
+Test error rate: 21.16%
+Step 67: 0.288380s wall, 0.290000s user + 0.000000s system = 0.290000s CPU (100.6%)
+Testing: 0.050146s wall, 0.050000s user + 0.000000s system = 0.050000s CPU (99.7%)
+Test error rate: 20.16%
+Step 68: 0.300922s wall, 0.300000s user + 0.000000s system = 0.300000s CPU (99.7%)
+Testing: 0.046889s wall, 0.050000s user + 0.000000s system = 0.050000s CPU (106.6%)
+Test error rate: 22.61%
+Step 69: 0.288775s wall, 0.280000s user + 0.000000s system = 0.280000s CPU (97.0%)
+Testing: 0.047582s wall, 0.050000s user + 0.000000s system = 0.050000s CPU (105.1%)
+Test error rate: 21.43%
+Step 70: 0.289983s wall, 0.290000s user + 0.000000s system = 0.290000s CPU (100.0%)
+Testing: 0.048515s wall, 0.050000s user + 0.000000s system = 0.050000s CPU (103.1%)
+Test error rate: 21.94%
+Step 71: 0.289180s wall, 0.290000s user + 0.000000s system = 0.290000s CPU (100.3%)
+Testing: 0.046940s wall, 0.040000s user + 0.000000s system = 0.040000s CPU (85.2%)
+Test error rate: 21.48%
+Step 72: 0.288732s wall, 0.290000s user + 0.000000s system = 0.290000s CPU (100.4%)
+Testing: 0.046923s wall, 0.050000s user + 0.000000s system = 0.050000s CPU (106.6%)
+Test error rate: 21.98%
+Step 73: 0.291035s wall, 0.290000s user + 0.000000s system = 0.290000s CPU (99.6%)
+Testing: 0.047972s wall, 0.050000s user + 0.000000s system = 0.050000s CPU (104.2%)
+Test error rate: 19.86%
+Step 74: 0.287855s wall, 0.280000s user + 0.000000s system = 0.280000s CPU (97.3%)
+Testing: 0.046883s wall, 0.050000s user + 0.000000s system = 0.050000s CPU (106.6%)
+Test error rate: 23.02%
+Step 75: 0.289332s wall, 0.290000s user + 0.000000s system = 0.290000s CPU (100.2%)
+Testing: 0.047597s wall, 0.050000s user + 0.000000s system = 0.050000s CPU (105.0%)
+Test error rate: 20.04%
+Step 76: 0.291093s wall, 0.290000s user + 0.000000s system = 0.290000s CPU (99.6%)
+Testing: 0.047204s wall, 0.040000s user + 0.000000s system = 0.040000s CPU (84.7%)
+Test error rate: 22.37%
+Step 77: 0.289075s wall, 0.290000s user + 0.000000s system = 0.290000s CPU (100.3%)
+Testing: 0.046988s wall, 0.050000s user + 0.000000s system = 0.050000s CPU (106.4%)
+Test error rate: 23.24%
+Step 78: 0.289246s wall, 0.290000s user + 0.000000s system = 0.290000s CPU (100.3%)
+Testing: 0.047007s wall, 0.050000s user + 0.000000s system = 0.050000s CPU (106.4%)
+Test error rate: 20.77%
+Step 79: 0.291388s wall, 0.280000s user + 0.000000s system = 0.280000s CPU (96.1%)
+Testing: 0.047433s wall, 0.050000s user + 0.000000s system = 0.050000s CPU (105.4%)
+Test error rate: 22.01%
+Step 80: 0.288059s wall, 0.290000s user + 0.000000s system = 0.290000s CPU (100.7%)
+Testing: 0.046969s wall, 0.050000s user + 0.000000s system = 0.050000s CPU (106.5%)
+Test error rate: 20.87%
+Step 81: 0.289765s wall, 0.290000s user + 0.000000s system = 0.290000s CPU (100.1%)
+Testing: 0.047027s wall, 0.040000s user + 0.000000s system = 0.040000s CPU (85.1%)
+Test error rate: 22.96%
+Step 82: 0.291789s wall, 0.290000s user + 0.000000s system = 0.290000s CPU (99.4%)
+Testing: 0.047264s wall, 0.050000s user + 0.000000s system = 0.050000s CPU (105.8%)
+Test error rate: 21.76%
+Step 83: 0.288388s wall, 0.290000s user + 0.000000s system = 0.290000s CPU (100.6%)
+Testing: 0.047003s wall, 0.050000s user + 0.000000s system = 0.050000s CPU (106.4%)
+Test error rate: 21.21%
+Step 84: 0.289046s wall, 0.280000s user + 0.000000s system = 0.280000s CPU (96.9%)
+Testing: 0.046931s wall, 0.050000s user + 0.000000s system = 0.050000s CPU (106.5%)
+Test error rate: 20.63%
+Step 85: 0.291692s wall, 0.290000s user + 0.000000s system = 0.290000s CPU (99.4%)
+Testing: 0.047297s wall, 0.050000s user + 0.000000s system = 0.050000s CPU (105.7%)
+Test error rate: 22.79%
+Step 86: 0.287347s wall, 0.290000s user + 0.000000s system = 0.290000s CPU (100.9%)
+Testing: 0.046969s wall, 0.040000s user + 0.000000s system = 0.040000s CPU (85.2%)
+Test error rate: 22.09%
+Step 87: 0.289021s wall, 0.290000s user + 0.000000s system = 0.290000s CPU (100.3%)
+Testing: 0.046946s wall, 0.050000s user + 0.000000s system = 0.050000s CPU (106.5%)
+Test error rate: 19.43%
+Step 88: 0.291768s wall, 0.290000s user + 0.000000s system = 0.290000s CPU (99.4%)
+Testing: 0.047182s wall, 0.050000s user + 0.000000s system = 0.050000s CPU (106.0%)
+Test error rate: 21.57%
+Step 89: 0.287600s wall, 0.280000s user + 0.000000s system = 0.280000s CPU (97.4%)
+Testing: 0.047016s wall, 0.050000s user + 0.000000s system = 0.050000s CPU (106.3%)
+Test error rate: 22.34%
+Step 90: 0.289179s wall, 0.290000s user + 0.000000s system = 0.290000s CPU (100.3%)
+Testing: 0.047059s wall, 0.040000s user + 0.000000s system = 0.040000s CPU (85.0%)
+Test error rate: 22.41%
+Step 91: 0.292208s wall, 0.300000s user + 0.000000s system = 0.300000s CPU (102.7%)
+Testing: 0.047132s wall, 0.040000s user + 0.000000s system = 0.040000s CPU (84.9%)
+Test error rate: 21.31%
+Step 92: 0.290614s wall, 0.290000s user + 0.000000s system = 0.290000s CPU (99.8%)
+Testing: 0.047484s wall, 0.050000s user + 0.000000s system = 0.050000s CPU (105.3%)
+Test error rate: 19.07%
+Step 93: 0.288290s wall, 0.290000s user + 0.000000s system = 0.290000s CPU (100.6%)
+Testing: 0.047041s wall, 0.050000s user + 0.000000s system = 0.050000s CPU (106.3%)
+Test error rate: 22.04%
+Step 94: 0.292070s wall, 0.280000s user + 0.000000s system = 0.280000s CPU (95.9%)
+Testing: 0.047147s wall, 0.050000s user + 0.000000s system = 0.050000s CPU (106.1%)
+Test error rate: 21.18%
+Step 95: 0.287510s wall, 0.290000s user + 0.000000s system = 0.290000s CPU (100.9%)
+Testing: 0.047887s wall, 0.050000s user + 0.000000s system = 0.050000s CPU (104.4%)
+Test error rate: 23.13%
+Step 96: 0.288545s wall, 0.290000s user + 0.000000s system = 0.290000s CPU (100.5%)
+Testing: 0.047005s wall, 0.040000s user + 0.000000s system = 0.040000s CPU (85.1%)
+Test error rate: 23.15%
+Step 97: 0.292315s wall, 0.290000s user + 0.000000s system = 0.290000s CPU (99.2%)
+Testing: 0.047304s wall, 0.050000s user + 0.000000s system = 0.050000s CPU (105.7%)
+Test error rate: 20.52%
+Step 98: 0.287216s wall, 0.290000s user + 0.000000s system = 0.290000s CPU (101.0%)
+Testing: 0.048241s wall, 0.050000s user + 0.000000s system = 0.050000s CPU (103.6%)
+Test error rate: 20.65%
+Step 99: 0.288337s wall, 0.290000s user + 0.000000s system = 0.290000s CPU (100.6%)
+Testing: 0.047026s wall, 0.040000s user + 0.000000s system = 0.040000s CPU (85.1%)
+Test error rate: 22%
+Step 100: 0.291339s wall, 0.290000s user + 0.000000s system = 0.290000s CPU (99.5%)
+Testing: 0.047121s wall, 0.050000s user + 0.000000s system = 0.050000s CPU (106.1%)
+Test error rate: 19.95%
