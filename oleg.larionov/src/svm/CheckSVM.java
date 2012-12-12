@@ -15,10 +15,9 @@ public class CheckSVM {
 			INPUT = "out.txt", TRAIN_IMGS = "train.imgs",
 			TRAIN_LABELS = "labels.imgs";
 	public static final int TRAIN_COUNT = 60000, CHECK_COUNT = 10000;
-	
-	private static Kernel k;
 
 	public static void main(String[] args) {
+		Kernel k = null;
 		double mult, shift;
 		List<List<Pair>> alpha = new ArrayList<List<Pair>>();
 		double b[] = new double[10];
@@ -96,7 +95,7 @@ public class CheckSVM {
 				}
 
 				for (int j = 0; j < 10; ++j) {
-					val[j] = calc(cur, alpha.get(j), x, trY[j], b[j]);
+					val[j] = calc(cur, alpha.get(j), x, trY[j], b[j], k);
 				}
 
 				int maxk = 0;
@@ -122,8 +121,8 @@ public class CheckSVM {
 		}
 	}
 
-	private static double calc(double cur[], List<Pair> alpha, double x[][],
-			double trY[], double b) {
+	public static double calc(double cur[], List<Pair> alpha, double x[][],
+			double trY[], double b, Kernel k) {
 		double sum = -b;
 		for (Pair p : alpha) {
 			sum += trY[p.num] * p.alpha * k.mult(cur, x[p.num]);
@@ -131,11 +130,11 @@ public class CheckSVM {
 		return sum;
 	}
 
-	private static class Pair {
+	public static class Pair {
 		private double alpha;
 		private int num;
 
-		private Pair(double alpha, int num) {
+		public Pair(double alpha, int num) {
 			this.alpha = alpha;
 			this.num = num;
 		}

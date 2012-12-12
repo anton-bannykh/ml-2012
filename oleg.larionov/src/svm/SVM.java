@@ -18,7 +18,7 @@ public class SVM {
 	public static final String IM = "train.imgs", LAB = "labels.imgs";
 
 	private static final double MULT = 127.5, SHIFT = 127.5,
-			GAMMA = 1.0 / (28.0 * 28.0);
+			GAMMA = 1.0 / (28.0 * 28.0), REG_CONST = 2.82842;
 	private static final Kernels KERNEL = Kernels.GAUSSIAN;
 
 	public static void main(String[] args) throws InterruptedException {
@@ -65,14 +65,13 @@ public class SVM {
 		ThreadPoolExecutor tpe = new ThreadPoolExecutor(proc, proc, 1,
 				TimeUnit.SECONDS, new LinkedBlockingQueue<Runnable>());
 		for (int i = 0; i < 10; ++i) {
-			tpe.execute(new Runner(i, x, y, k, lock));
+			tpe.execute(new Runner(i, x, y, k, REG_CONST, lock));
 		}
 		lock.await();
 
 		tpe.shutdownNow();
 		try (PrintWriter pw = new PrintWriter("out.txt");) {
-			pw.print(MULT + " " + SHIFT + " " + Runner.REG_CONST + " " + KERNEL
-					+ " ");
+			pw.print(MULT + " " + SHIFT + " " + REG_CONST + " " + KERNEL + " ");
 			switch (KERNEL) {
 			case GAUSSIAN:
 				pw.print(GAMMA);

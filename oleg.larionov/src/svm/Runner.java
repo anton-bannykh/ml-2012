@@ -13,8 +13,9 @@ import org.apache.commons.math3.util.FastMath;
 
 public class Runner implements Runnable {
 
-	public static final double REG_CONST = 2.82842, TOL = 1e-2, ZERO = 1e-8;
+	public static final double TOL = 1e-2, ZERO = 1e-8;
 
+	private double reg_const;
 	private String out;
 	private int myNum;
 	private double x[][], trY[], alpha[], b, e[];
@@ -22,13 +23,15 @@ public class Runner implements Runnable {
 	private Kernel k;
 	private RandomGenerator rnd;
 
-	public Runner(int myNum, double[][] x, int[] y, Kernel k,
+	public Runner(int myNum, double[][] x, int[] y, Kernel k, double reg,
 			CountDownLatch lock) {
 		this.myNum = myNum;
 		this.x = x;
 		out = "out/" + myNum + ".txt";
 		this.lock = lock;
 		this.k = k;
+		this.reg_const = reg;
+
 		b = 0;
 		trY = new double[x.length];
 		alpha = new double[x.length];
@@ -55,7 +58,7 @@ public class Runner implements Runnable {
 			} else {
 				List<Integer> nonBound = new ArrayList<>();
 				for (int i = 0; i < x.length; ++i) {
-					if (alpha[i] > 0 && alpha[i] < REG_CONST) {
+					if (alpha[i] > 0 && alpha[i] < reg_const) {
 						nonBound.add(i);
 					}
 				}
@@ -77,7 +80,7 @@ public class Runner implements Runnable {
 					pw.print(i + " " + alpha[i] + " ");
 				}
 			}
-			pw.print("60000 " + b);
+			pw.print(x.length + " " + b);
 		} catch (FileNotFoundException e) {
 			System.err.println("cannot write to file " + out + " "
 					+ e.getMessage());
@@ -90,11 +93,11 @@ public class Runner implements Runnable {
 		double e2 = e[num], r2 = e2 * trY[num];
 		List<Integer> nonBound = new ArrayList<>();
 		for (int i = 0; i < alpha.length; ++i) {
-			if (alpha[i] > 0 && alpha[i] < REG_CONST) {
+			if (alpha[i] > 0 && alpha[i] < reg_const) {
 				nonBound.add(i);
 			}
 		}
-		if ((r2 < -TOL && alpha[num] < REG_CONST)
+		if ((r2 < -TOL && alpha[num] < reg_const)
 				|| (r2 > TOL && alpha[num] > 0)) {
 			if (nonBound.size() > 1) {
 				if (e2 > 0) {
@@ -169,11 +172,11 @@ public class Runner implements Runnable {
 		}
 		double e1 = e[num1], s = trY[num1] * trY[num2], l, h;
 		if (s > 0) {
-			l = FastMath.max(0, alpha[num1] + alpha[num2] - REG_CONST);
-			h = FastMath.min(REG_CONST, alpha[num1] + alpha[num2]);
+			l = FastMath.max(0, alpha[num1] + alpha[num2] - reg_const);
+			h = FastMath.min(reg_const, alpha[num1] + alpha[num2]);
 		} else {
 			l = FastMath.max(0, alpha[num2] - alpha[num1]);
-			h = FastMath.min(REG_CONST, REG_CONST + alpha[num2] - alpha[num1]);
+			h = FastMath.min(reg_const, reg_const + alpha[num2] - alpha[num1]);
 		}
 		if (FastMath.abs(l - h) < ZERO) {
 			return 0;
@@ -186,8 +189,8 @@ public class Runner implements Runnable {
 			a2 = alpha[num2] + trY[num2] * (e1 - e2) / eta;
 			if (FastMath.abs(a2) < ZERO) {
 				a2 = 0;
-			} else if (FastMath.abs(a2 - REG_CONST) < ZERO) {
-				a2 = REG_CONST;
+			} else if (FastMath.abs(a2 - reg_const) < ZERO) {
+				a2 = reg_const;
 			}
 			if (a2 < l) {
 				a2 = l;
@@ -214,8 +217,8 @@ public class Runner implements Runnable {
 		a1 = alpha[num1] + s * (alpha[num2] - a2);
 		if (FastMath.abs(a1) < ZERO) {
 			a1 = 0;
-		} else if (FastMath.abs(a1 - REG_CONST) < ZERO) {
-			a1 = REG_CONST;
+		} else if (FastMath.abs(a1 - reg_const) < ZERO) {
+			a1 = reg_const;
 		}
 		double b1 = e1 + trY[num1] * (a1 - alpha[num1]) * k11 + trY[num2]
 				* (a2 - alpha[num2]) * k12 + b;
@@ -224,17 +227,17 @@ public class Runner implements Runnable {
 		double bn = (b1 + b2) / 2;
 		recalc(num1, num2, a1, a2, bn);
 
-		System.out.println("num " + myNum + " alpha " + num1 + " " + num2
-				+ " changed");
+		// System.out.println("num " + myNum + " alpha " + num1 + " " + num2
+		// + " changed");
 
-//		synchronized (System.out) {
-//			System.out.println("--");
-//			System.out.println("num " + myNum + " alpha " + num1
-//					+ " changed from " + alpha[num1] + " to " + a1);
-//			System.out.println("num " + myNum + " alpha " + num2
-//					+ " changed from " + alpha[num2] + " to " + a2);
-//			System.out.println("--");
-//		}
+		// synchronized (System.out) {
+		// System.out.println("--");
+		// System.out.println("num " + myNum + " alpha " + num1
+		// + " changed from " + alpha[num1] + " to " + a1);
+		// System.out.println("num " + myNum + " alpha " + num2
+		// + " changed from " + alpha[num2] + " to " + a2);
+		// System.out.println("--");
+		// }
 
 		alpha[num1] = a1;
 		alpha[num2] = a2;
