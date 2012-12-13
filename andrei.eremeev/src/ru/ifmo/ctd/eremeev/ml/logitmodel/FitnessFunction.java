@@ -48,11 +48,11 @@ public class FitnessFunction implements DifferentiableMultivariateFunction {
 					int y = d.getLabel() == label ? 1 : -1;
 					double p = P(d.imageToDoubleArray(), x, y);
 					for (int i = 0; i < n; ++i) {
-						ans[i] += eta * y * d.getDouble(i) * (1 - p);
+						ans[i] -= eta * y * d.getDouble(i) * (1 - p);
 					}
 				}
 				for (int i = 0; i < n; ++i) {
-					ans[i] += lambda * x[i];
+					ans[i] -= lambda * x[i];
 				}
 				++cnt;
 				if (cnt % 10 == 0) {
@@ -72,9 +72,9 @@ public class FitnessFunction implements DifferentiableMultivariateFunction {
 				for (Digit d : ds) {
 					int y = d.getLabel() == label ? 1 : -1;
 					double p = P(d.imageToDoubleArray(), x, y);
-					ans += eta * y * d.getDouble(k) * (1 - p);
+					ans -= eta * y * d.getDouble(k) * (1 - p);
 				}
-				ans += lambda * x[k];
+				ans -= lambda * x[k];
 				return ans;
 			}
 		};

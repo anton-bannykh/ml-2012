@@ -12,12 +12,13 @@ import java.util.concurrent.Executors;
 import ru.ifmo.ctd.eremeev.ml.io.DigitInputStream;
 import ru.ifmo.ctd.eremeev.ml.util.Digit;
 import ru.ifmo.ctd.eremeev.ml.util.Utils;
+
 public class Classifier {
 
 	private static final int ITERATIONS = 10000;
-	private static final double LAMBDA = 0;
-	private static final double ETA = -1;
-	private static final double EPS = 0.01;
+	private static final double LAMBDA = 1.0 / 60000;
+	private static final double ETA = 0.7;
+	private static final double EPS = 0.005;
 	
 	public static void main(String[] args) {
 		long start = System.currentTimeMillis();
