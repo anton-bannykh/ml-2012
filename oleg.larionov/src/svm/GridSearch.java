@@ -76,7 +76,7 @@ public class GridSearch {
 		CountDownLatch lock;
 		ThreadPoolExecutor tpe = new ThreadPoolExecutor(proc, proc, 1,
 				TimeUnit.SECONDS, new LinkedBlockingQueue<Runnable>());
-		for (double gamma = 0.0005; gamma <= 0.003; gamma += 0.0005) {
+		for (double gamma = 0.001; gamma <= 0.01; gamma += 0.001) {
 			for (double reg = 2.5; reg <= 3.5; reg += 0.5) {
 				k = new Gaussian(gamma);
 				lock = new CountDownLatch(10);
