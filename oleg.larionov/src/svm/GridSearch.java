@@ -26,10 +26,14 @@ public class GridSearch {
 			M = 28;
 	private static final double MULT = 127.5, SHIFT = 127.5;
 
+	private static double[][] xTrain = new double[TRAIN_COUNT][N * M],
+			xCheck = new double[CHECK_COUNT][N * M],
+			trYTrain = new double[10][TRAIN_COUNT];
+	private static int[] yTrain = new int[TRAIN_COUNT],
+			yCheck = new int[CHECK_COUNT];
+	private static Kernel k;
+
 	public static void main(String[] args) throws Exception {
-		double[][] xTrain = new double[TRAIN_COUNT][N * M], xCheck = new double[CHECK_COUNT][N
-				* M], trYTrain = new double[10][TRAIN_COUNT];
-		int[] yTrain = new int[TRAIN_COUNT], yCheck = new int[CHECK_COUNT];
 
 		try (DataInputStream imgs = new DataInputStream(new FileInputStream(IM));
 				DataInputStream labels = new DataInputStream(
@@ -71,8 +75,12 @@ public class GridSearch {
 			return;
 		}
 
+		searchPoly();
+		System.out.println("done");
+	}
+
+	private static void searchGauss() throws InterruptedException {
 		int proc = Runtime.getRuntime().availableProcessors();
-		Kernel k;
 		CountDownLatch lock;
 		ThreadPoolExecutor tpe = new ThreadPoolExecutor(proc, proc, 1,
 				TimeUnit.SECONDS, new LinkedBlockingQueue<Runnable>());
@@ -99,64 +107,99 @@ public class GridSearch {
 							+ e.getMessage());
 					return;
 				}
+				int err = check();
+				System.out.println("gamma " + gamma + " reg " + reg + " err "
+						+ err);
+			}
+		}
+	}
 
-				System.out.println("testing...");
-				List<List<Pair>> alpha = new ArrayList<List<Pair>>();
-				double b[] = new double[10];
-				try (BufferedReader br = new BufferedReader(
-						new InputStreamReader(new FileInputStream(INPUT)))) {
+	private static void searchPoly() throws InterruptedException {
+		int proc = Runtime.getRuntime().availableProcessors();
+		CountDownLatch lock;
+		ThreadPoolExecutor tpe = new ThreadPoolExecutor(proc, proc, 1,
+				TimeUnit.SECONDS, new LinkedBlockingQueue<Runnable>());
+		for (int deg = 4; deg <= 4; ++deg) {
+			for (double reg = 0.5; reg <= 5.0; reg += 0.5) {
+				k = new InhomoPoly(deg);
+				lock = new CountDownLatch(10);
+				System.out.println("begin calc " + deg + " " + reg);
+				for (int i = 0; i < 10; ++i) {
+					tpe.execute(new Runner(i, xTrain, yTrain, k, reg, lock));
+				}
+				lock.await();
+
+				try (PrintWriter pw = new PrintWriter("out.txt");) {
 					for (int i = 0; i < 10; ++i) {
-						StringTokenizer st = new StringTokenizer(br.readLine()
-								+ " ");
-						alpha.add(new ArrayList<Pair>());
-						int num;
-						double cur;
-						while (st.hasMoreTokens()) {
-							num = Integer.parseInt(st.nextToken());
-							cur = Double.parseDouble(st.nextToken());
-							if (num == TRAIN_COUNT) {
-								b[i] = cur;
-							} else {
-								alpha.get(i).add(new Pair(cur, num));
-							}
+						try (BufferedReader br = new BufferedReader(
+								new FileReader(new File("out/" + i + ".txt")))) {
+							pw.println(br.readLine());
 						}
 					}
+					System.out.println("out.txt created");
 				} catch (IOException e) {
-					System.err.println("Cannot read svm from file. "
+					System.err.println("cannot create out.txt. "
 							+ e.getMessage());
 					return;
 				}
-
-				int err = 0;
-				double val[] = new double[10];
-				for (int i = 0; i < CHECK_COUNT; ++i) {
-
-					for (int j = 0; j < 10; ++j) {
-						val[j] = CheckSVM.calc(xCheck[i], alpha.get(j), xTrain,
-								trYTrain[j], b[j], k);
-					}
-
-					int maxk = 0;
-					double max = val[maxk];
-					for (int j = 1; j < 10; ++j) {
-						if (val[j] > max) {
-							maxk = j;
-							max = val[maxk];
-						}
-					}
-
-					if (maxk != yCheck[i]) {
-						++err;
-					}
-					if ((i + 1) % 1000 == 0) {
-						System.out.println(i + 1 + " " + err);
-					}
-				}
-
-				System.out
-						.println("gamma " + gamma + " reg " + reg + " " + err);
+				int err = check();
+				System.out.println("degree " + deg + " reg " + reg + " err "
+						+ err);
 			}
 		}
-		System.out.println("done");
+	}
+
+	private static int check() {
+		System.out.println("testing...");
+		List<List<Pair>> alpha = new ArrayList<List<Pair>>();
+		double b[] = new double[10];
+		try (BufferedReader br = new BufferedReader(new InputStreamReader(
+				new FileInputStream(INPUT)))) {
+			for (int i = 0; i < 10; ++i) {
+				StringTokenizer st = new StringTokenizer(br.readLine() + " ");
+				alpha.add(new ArrayList<Pair>());
+				int num;
+				double cur;
+				while (st.hasMoreTokens()) {
+					num = Integer.parseInt(st.nextToken());
+					cur = Double.parseDouble(st.nextToken());
+					if (num == TRAIN_COUNT) {
+						b[i] = cur;
+					} else {
+						alpha.get(i).add(new Pair(cur, num));
+					}
+				}
+			}
+		} catch (IOException e) {
+			System.err.println("Cannot read svm from file. " + e.getMessage());
+			return -1;
+		}
+
+		int err = 0;
+		double val[] = new double[10];
+		for (int i = 0; i < CHECK_COUNT; ++i) {
+
+			for (int j = 0; j < 10; ++j) {
+				val[j] = CheckSVM.calc(xCheck[i], alpha.get(j), xTrain,
+						trYTrain[j], b[j], k);
+			}
+
+			int maxk = 0;
+			double max = val[maxk];
+			for (int j = 1; j < 10; ++j) {
+				if (val[j] > max) {
+					maxk = j;
+					max = val[maxk];
+				}
+			}
+
+			if (maxk != yCheck[i]) {
+				++err;
+			}
+			if ((i + 1) % 1000 == 0) {
+				System.out.println(i + 1 + " " + err);
+			}
+		}
+		return err;
 	}
 }

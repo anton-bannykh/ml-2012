@@ -35,6 +35,10 @@ public class CheckSVM {
 			case SCALAR:
 				k = new Scalar();
 				break;
+
+			case INHOMOPOLY:
+				k = new InhomoPoly(Integer.parseInt(st.nextToken()));
+				break;
 			}
 
 			for (int i = 0; i < 10; ++i) {
@@ -107,8 +111,10 @@ public class CheckSVM {
 					}
 				}
 
-				if (maxk != checkLabels.read()) {
+				int num = checkLabels.read();
+				if (maxk != num) {
 					++err;
+					System.out.println("num " + num + " we think that " + maxk);
 				}
 				if ((i + 1) % 1000 == 0) {
 					System.out.println(i + 1 + " " + err);

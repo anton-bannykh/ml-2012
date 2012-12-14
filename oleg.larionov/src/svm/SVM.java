@@ -19,7 +19,9 @@ public class SVM {
 
 	private static final double MULT = 127.5, SHIFT = 127.5,
 			GAMMA = 1.0 / (28.0 * 28.0), REG_CONST = 2.82842;
-	private static final Kernels KERNEL = Kernels.GAUSSIAN;
+	private static final int DEG = 4;
+
+	private static final Kernels KERNEL = Kernels.INHOMOPOLY;
 
 	public static void main(String[] args) throws InterruptedException {
 		double[][] x = new double[COUNT][N * M];
@@ -33,10 +35,14 @@ public class SVM {
 		case SCALAR:
 			k = new Scalar();
 			break;
+
+		case INHOMOPOLY:
+			k = new InhomoPoly(DEG);
+			break;
 		}
-		try {
-			DataInputStream imgs = new DataInputStream(new FileInputStream(IM)), labels = new DataInputStream(
-					new FileInputStream(LAB));
+		try (DataInputStream imgs = new DataInputStream(new FileInputStream(IM));
+				DataInputStream labels = new DataInputStream(
+						new FileInputStream(LAB));) {
 			imgs.skip(16);
 			labels.skip(8);
 
@@ -53,8 +59,6 @@ public class SVM {
 					}
 				}
 			}
-			imgs.close();
-			labels.close();
 		} catch (Exception e) {
 			System.err.println("fail reading images " + e.getMessage());
 			return;
@@ -71,15 +75,8 @@ public class SVM {
 
 		tpe.shutdownNow();
 		try (PrintWriter pw = new PrintWriter("out.txt");) {
-			pw.print(MULT + " " + SHIFT + " " + REG_CONST + " " + KERNEL + " ");
-			switch (KERNEL) {
-			case GAUSSIAN:
-				pw.print(GAMMA);
-				break;
-			default:
-				break;
-			}
-			pw.println();
+			pw.println(MULT + " " + SHIFT + " " + REG_CONST + " " + KERNEL
+					+ " " + k.getParams());
 			for (int i = 0; i < 10; ++i) {
 				try (BufferedReader br = new BufferedReader(new FileReader(
 						new File("out/" + i + ".txt")))) {

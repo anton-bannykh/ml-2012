@@ -1,5 +1,5 @@
 package svm;
 
 public enum Kernels {
-	GAUSSIAN, SCALAR
+	GAUSSIAN, SCALAR, INHOMOPOLY
 }

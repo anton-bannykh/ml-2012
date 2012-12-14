@@ -10,4 +10,9 @@ public class Scalar implements Kernel {
 		}
 		return ans;
 	}
+
+	@Override
+	public String getParams() {
+		return "";
+	}
 }
