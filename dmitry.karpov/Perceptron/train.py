@@ -1,61 +1,38 @@
 #! /usr/bin/python
 
-import struct
-from numpy import *
+
 import sys
+import ImageReader
+import check
+from numpy import *
+import os
 
-def readLabels(path):
-    with open(path) as f:
-        label_str = f.read()
-    f.close()
-    magic_number = struct.unpack("!l", label_str[0:4])[0];
-    label_str = label_str[4:]
-    amount = struct.unpack("!l", label_str[0:4])[0]
-    label_str = label_str[4:]
-    label = [0]*amount
-    for i in range(amount):
-        label[i] = struct.unpack("!B", label_str[i:i+1])[0]
-    return (label, amount)
 
-def readImages(path):
-    with open(path) as f:
-        images_str = f.read()
-    f.close()
-    magic_number = struct.unpack("!l", images_str[0:4])[0];
-    images_str = images_str[4:]
-    amount = struct.unpack("!l", images_str[0:4])[0]
-    images_str = images_str[4:]
-    row = struct.unpack("!l", images_str[0:4])[0]
-    images_str = images_str[4:]
-    col = struct.unpack("!l", images_str[0:4])[0]
-    images_str = images_str[4:]
-    images = ones( (row*col+1, amount), dtype = float64)
-    for i in range(amount):
-        prefix = images_str[i*row*col:(i+1)*row*col]
-        for j in range(row*col):
-            val = struct.unpack("!B", prefix[j : j + 1])[0]
-            images[j,i] = (val - 128.0)/128.0
-    return (images, amount, row, col) 
-
-def fprintMat(f, x, row, col):
+def fprintMat(fname, x, row, col):
+    f = open(fname, 'w')
     for i in range(row):
         s = ''
         for j in range(col):
             s = s + str(x[i, j]) + " "
         s = s + '\n'
         f.write(s)
-
-def normalize(x, row, col):
-    for i in range(col):
-        n = linalg.norm(x[:, i])
-        if n != 0.:
-            x[:, i] = x[:, i] / n
+    f.close
         
 if __name__ == "__main__":
-    label, amount = readLabels('../../data/mnist/train-labels.idx1-ubyte')
-    images, amount, row, col = readImages('../../data/mnist/train-images.idx3-ubyte')
+    label, amount = ImageReader.readLabels('../../data/mnist/train-labels.idx1-ubyte')
+    images, amount, row, col = ImageReader.readImages('../../data/mnist/train-images.idx3-ubyte')
+    q_label, q_amount = ImageReader.readLabels('../../data/mnist/t10k-labels.idx1-ubyte')
+    q_images, q_amount, row, col = ImageReader.readImages('../../data/mnist/t10k-images.idx3-ubyte')
     it = int(sys.argv[1])
     teta = zeros((row*col + 1, 10), dtype = float64)
+    best_it = -1
+    min_error = 1.
+    if os.path.exists("out"):
+        for i in os.listdir("out"):
+            fn = "out/" + i
+            os.remove(fn)
+        os.removedirs("out")
+    os.makedirs("out")
     for h in range(it):
         for i in range(amount):
             dig = label[i]
@@ -64,8 +41,13 @@ if __name__ == "__main__":
             for d in range(10):
                 if (d != dig) and (dot(teta[:, d].T, images[:, i]) > 0):
                      teta[:, d] = teta[:, d] - images[:, i]
-        print h
-    f = open('teta.out', 'w')
-    fprintMat(f, teta, row*col + 1, 10)
-    f.close()
+        print "At iteration " + str(h)
+        curr_error = check.check(q_images, q_label, q_amount, row, col, teta)
+        if curr_error < min_error:
+            min_error = curr_error
+            best_it = h
+        fname = "out/teta_" + str(h);
+        fprintMat(fname, teta, row*col + 1, 10)
+    print "Best iteration is " + str(best_it)
+    print "Minimal error is " + str(min_error)
     print "Finished"
