@@ -5,6 +5,7 @@ import java.io.DataInputStream;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileReader;
+import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.concurrent.CountDownLatch;
 import java.util.concurrent.LinkedBlockingQueue;
@@ -13,18 +14,35 @@ import java.util.concurrent.TimeUnit;
 
 public class SVM {
 
-	public static final Kernel k = new Gaussian(0.0078125);
-
 	public static final int N = 28, M = 28, COUNT = 60000;
 	public static final String IM = "train.imgs", LAB = "labels.imgs";
-	public static final double MULT = 1000, SHIFT = 128;
 
-	public static void main(String[] args) throws Exception {
+	private static final double MULT = 127.5, SHIFT = 127.5,
+			GAMMA = 1.0 / (28.0 * 28.0), REG_CONST = 2.82842;
+	private static final int DEG = 4;
+
+	private static final Kernels KERNEL = Kernels.INHOMOPOLY;
+
+	public static void main(String[] args) throws InterruptedException {
 		double[][] x = new double[COUNT][N * M];
 		int[] y = new int[COUNT];
-		try {
-			DataInputStream imgs = new DataInputStream(new FileInputStream(IM)), labels = new DataInputStream(
-					new FileInputStream(LAB));
+		Kernel k = null;
+		switch (KERNEL) {
+		case GAUSSIAN:
+			k = new Gaussian(GAMMA);
+			break;
+
+		case SCALAR:
+			k = new Scalar();
+			break;
+
+		case INHOMOPOLY:
+			k = new InhomoPoly(DEG);
+			break;
+		}
+		try (DataInputStream imgs = new DataInputStream(new FileInputStream(IM));
+				DataInputStream labels = new DataInputStream(
+						new FileInputStream(LAB));) {
 			imgs.skip(16);
 			labels.skip(8);
 
@@ -41,8 +59,6 @@ public class SVM {
 					}
 				}
 			}
-			imgs.close();
-			labels.close();
 		} catch (Exception e) {
 			System.err.println("fail reading images " + e.getMessage());
 			return;
@@ -53,19 +69,24 @@ public class SVM {
 		ThreadPoolExecutor tpe = new ThreadPoolExecutor(proc, proc, 1,
 				TimeUnit.SECONDS, new LinkedBlockingQueue<Runnable>());
 		for (int i = 0; i < 10; ++i) {
-			tpe.execute(new Runner(i, x, y, k, lock));
+			tpe.execute(new Runner(i, x, y, k, REG_CONST, lock));
 		}
 		lock.await();
 
 		tpe.shutdownNow();
-		PrintWriter pw = new PrintWriter("out.txt");
-		for (int i = 0; i < 10; ++i) {
-			try (BufferedReader br = new BufferedReader(new FileReader(
-					new File("out/" + i + ".txt")))) {
-				pw.println(br.readLine());
+		try (PrintWriter pw = new PrintWriter("out.txt");) {
+			pw.println(MULT + " " + SHIFT + " " + REG_CONST + " " + KERNEL
+					+ " " + k.getParams());
+			for (int i = 0; i < 10; ++i) {
+				try (BufferedReader br = new BufferedReader(new FileReader(
+						new File("out/" + i + ".txt")))) {
+					pw.println(br.readLine());
+				}
 			}
+			System.out.println("out.txt created");
+		} catch (IOException e) {
+			System.err.println("cannot create out.txt. " + e.getMessage());
+			return;
 		}
-		pw.close();
-		System.out.println("out.txt created");
 	}
 }

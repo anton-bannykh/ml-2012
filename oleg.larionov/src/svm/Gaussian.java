@@ -19,4 +19,9 @@ public class Gaussian implements Kernel {
 
 		return FastMath.exp(-gamma * norm);
 	}
+
+	@Override
+	public String getParams() {
+		return "" + gamma;
+	}
 }

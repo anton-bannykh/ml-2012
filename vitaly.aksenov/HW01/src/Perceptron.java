@@ -1,5 +1,3 @@
-import java.util.Arrays;
-
 public class Perceptron {
 	double[] theta;
 
@@ -8,7 +6,7 @@ public class Perceptron {
 //		Arrays.fill(theta, 1);
 	}
 
-	public double getBetter(byte[] vector) {
+	public double getBetter(int[] vector) {
 		double ans = 0;
 		for (int i = 0; i < vector.length; i++) {
 			ans += theta[i] * vector[i];
@@ -16,7 +14,7 @@ public class Perceptron {
 		return ans;
 	}
 	
-	public int get(byte[] vector) {
+	public int get(int[] vector) {
 		double ans = 0;
 		for (int i = 0; i < vector.length; i++) {
 			ans += theta[i] * vector[i];
@@ -24,7 +22,7 @@ public class Perceptron {
 		return (int) Math.signum(ans);
 	}
 
-	public void update(int y, byte[] vector) {
+	public void update(int y, int[] vector) {
 		for (int i = 0; i < vector.length; i++) {
 			theta[i] += y * vector[i];
 		}
