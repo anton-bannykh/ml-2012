@@ -14,6 +14,5 @@ def check(images, label, amount, row, col, teta):
         if label[i] == good:
             succ += 1
         total += 1
-    print succ
     print "Error percent " + str(1. - float(succ) / total)
     return (1. - float(succ)/total)
