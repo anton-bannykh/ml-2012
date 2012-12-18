@@ -5,13 +5,11 @@ import java.net.URI
 import java.util.zip.GZIPInputStream
 
 object mnistIO {
-
   def t10k_images(implicit relative:URI) = IDX3Reader from relative.resolve("t10k-images-idx3-ubyte.gz")
   def t10k_labels(implicit relative:URI) = IDX1Reader from relative.resolve("t10k-labels-idx1-ubyte.gz")
   def train_images(implicit relative:URI) = IDX3Reader from relative.resolve("train-images-idx3-ubyte.gz")
   def train_labels(implicit relative:URI) = IDX1Reader from relative.resolve("train-labels-idx1-ubyte.gz")
 }
-
 
 class MnistInputStream(stream : InputStream) extends DataInputStream(new BufferedInputStream(stream))
 
@@ -27,10 +25,10 @@ object IDX1Reader extends MnistReader {
     val rMagic = in.readInt
     assert(rMagic == 0x00000801, "magic number 0x00000801")
     val size = in.readInt
-    Stream.continually(in.readByte.toDouble).take(size).toArray
+    Stream.continually(in.read()).take(size).toArray
   }
 
-  def from(u : URI) : Array[Double] = {
+  def from(u : URI) : Array[Int] = {
     val stream = new GZIPInputStream(u.toURL.openStream)
     autoClose(new MnistInputStream(stream), read)
   }
@@ -43,7 +41,7 @@ object IDX3Reader extends MnistReader{
     val size = stream.readInt
     val rows = stream.readInt
     val columns = stream.readInt
-    def readFrame =  Stream.continually(stream.readByte.toDouble).take(rows * columns).toArray
+    def readFrame =  Stream.continually(stream.read().toDouble).take(rows * columns).toArray
     Stream.continually(readFrame).take(size).toArray
   }
 
