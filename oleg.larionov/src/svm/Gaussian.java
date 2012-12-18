@@ -13,10 +13,15 @@ public class Gaussian implements Kernel {
 	@Override
 	public double mult(double[] x, double[] y) {
 		double norm = 0;
-		for (int i = 0; i < SVM.N * SVM.M; ++i) {
+		for (int i = 0; i < x.length; ++i) {
 			norm += (x[i] - y[i]) * (x[i] - y[i]);
 		}
 
 		return FastMath.exp(-gamma * norm);
+	}
+
+	@Override
+	public String getParams() {
+		return "" + gamma;
 	}
 }
