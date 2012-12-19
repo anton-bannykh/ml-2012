@@ -24,7 +24,7 @@ public class GridSearch {
 			INPUT = "out.txt";
 	public static final int TRAIN_COUNT = 30000, CHECK_COUNT = 10000, N = 28,
 			M = 28;
-	private static final double MULT = 127.5, SHIFT = 127.5;
+	private static final double MULT = 6000, SHIFT = 127.5;
 
 	private static double[][] xTrain = new double[TRAIN_COUNT][N * M],
 			xCheck = new double[CHECK_COUNT][N * M],
@@ -84,8 +84,8 @@ public class GridSearch {
 		CountDownLatch lock;
 		ThreadPoolExecutor tpe = new ThreadPoolExecutor(proc, proc, 1,
 				TimeUnit.SECONDS, new LinkedBlockingQueue<Runnable>());
-		for (double gamma = 0.001; gamma <= 0.01; gamma += 0.001) {
-			for (double reg = 2.5; reg <= 3.5; reg += 0.5) {
+		for (double gamma = 0.004; gamma <= 0.01; gamma += 0.001) {
+			for (double reg = 3; reg <= 3.5; reg += 0.5) {
 				k = new Gaussian(gamma);
 				lock = new CountDownLatch(10);
 				System.out.println("begin calc " + gamma + " " + reg);
@@ -120,7 +120,7 @@ public class GridSearch {
 		ThreadPoolExecutor tpe = new ThreadPoolExecutor(proc, proc, 1,
 				TimeUnit.SECONDS, new LinkedBlockingQueue<Runnable>());
 		for (int deg = 4; deg <= 4; ++deg) {
-			for (double reg = 0.5; reg <= 5.0; reg += 0.5) {
+			for (double reg = 7.0; reg <= 20.0; reg += 1.0) {
 				k = new InhomoPoly(deg);
 				lock = new CountDownLatch(10);
 				System.out.println("begin calc " + deg + " " + reg);

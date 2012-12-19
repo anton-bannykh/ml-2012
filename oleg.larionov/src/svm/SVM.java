@@ -17,8 +17,8 @@ public class SVM {
 	public static final int N = 28, M = 28, COUNT = 60000;
 	public static final String IM = "train.imgs", LAB = "labels.imgs";
 
-	private static final double MULT = 127.5, SHIFT = 127.5,
-			GAMMA = 1.0 / (28.0 * 28.0), REG_CONST = 2.82842;
+	private static final double MULT = 6000, SHIFT = 127.5,
+			GAMMA = 1.0 / (28.0 * 28.0), REG_CONST = 10;
 	private static final int DEG = 4;
 
 	private static final Kernels KERNEL = Kernels.INHOMOPOLY;
