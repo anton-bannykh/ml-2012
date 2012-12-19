@@ -1,4 +1,5 @@
 #include <cassert>
+#include <climits>
 #include <iostream>
 
 #include <boost/timer/timer.hpp>
@@ -66,7 +67,7 @@ int main() {
 
             for (size_t i = 0; i < testIH.size(); ++i) {
                 int ans = -1;
-                int maxRes = 0;
+                int maxRes = -INT_MAX;
                 for (size_t z = 0; z < 10; ++z) {
                     int res;
                     f(testIH[i], Q[z], &res);
