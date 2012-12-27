@@ -5,8 +5,8 @@ public class Utils {
 	public static final String TRAIN_IMAGES = "image/train-images.idx3-ubyte";
 	public static final String TEST_LABELS = "image/t10k-labels.idx1-ubyte";
 	public static final String TEST_IMAGES = "image/t10k-images.idx3-ubyte";
-	public static final String RESULT_PERCEPTRON = "image/result_perceptron.txt";
-	public static final String RESULT_LOGIT_MODEL = "image/result_logitmodel.txt";
+	public static final String RESULT_PERCEPTRON = "result/perceptron.txt";
+	public static final String RESULT_LOGIT_MODEL = "result/logitmodel.txt";
 	
 	public static String time(long start) {
 		long time = (System.currentTimeMillis() - start) / 1000;

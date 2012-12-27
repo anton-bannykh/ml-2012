@@ -16,9 +16,9 @@ import ru.ifmo.ctd.eremeev.ml.util.Utils;
 public class Classifier {
 
 	private static final int ITERATIONS = 10000;
-	private static final double LAMBDA = 1.0 / 60000;
+	private static final double LAMBDA = 1.0 / 2500000;
 	private static final double ETA = 0.7;
-	private static final double EPS = 0.005;
+	private static final double EPS = 0.001;
 	
 	public static void main(String[] args) {
 		long start = System.currentTimeMillis();
