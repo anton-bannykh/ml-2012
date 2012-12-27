@@ -24,8 +24,8 @@ public class CheckSVM {
 		try (BufferedReader br = new BufferedReader(new InputStreamReader(
 				new FileInputStream(INPUT)))) {
 			StringTokenizer st = new StringTokenizer(br.readLine());
-			shift = Double.parseDouble(st.nextToken());
 			mult = Double.parseDouble(st.nextToken());
+			shift = Double.parseDouble(st.nextToken());
 			Double.parseDouble(st.nextToken()); // reg_const
 			switch (Kernels.valueOf(st.nextToken())) {
 			case GAUSSIAN:
@@ -114,7 +114,6 @@ public class CheckSVM {
 				int num = checkLabels.read();
 				if (maxk != num) {
 					++err;
-					System.out.println("num " + num + " we think that " + maxk);
 				}
 				if ((i + 1) % 1000 == 0) {
 					System.out.println(i + 1 + " " + err);
