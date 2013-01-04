@@ -19,6 +19,8 @@ class MNISTReader():
     count = 0
     labels = []
     images = []
+    row_len = 0
+    col_len = 0
 
     def __init__(self, path='../../data/mnist/', prefix='train'):
         self.path = path
@@ -29,6 +31,8 @@ class MNISTReader():
             raise CountMismatchReaderException(labelsResult[1], imagesResult[1])
         self.count = labelsResult[1]
         self.labels = labelsResult[2]
+        self.row_len = imagesResult[2]
+        self.col_len = imagesResult[3]
         self.images = imagesResult[4]
 
     @classmethod
@@ -42,7 +46,7 @@ class MNISTReader():
         labels1 = []
         for i in range(count):
             labels1.append(struct.unpack('!B', content[i + 8])[0])
-        labels = numpy.array(struct.unpack('!' + 'B' * count, content[8:]))
+        labels = list(struct.unpack('!' + 'B' * count, content[8:]))
         for i in range(count):
             if labels1[i] != labels[i]:
                 print i
