@@ -34,6 +34,9 @@ class MNISTReader():
         self.row_len = imagesResult[2]
         self.col_len = imagesResult[3]
         self.images = imagesResult[4]
+        self.info = 'path: %s, prefix: %s, count: %d, row length: %d, column length: %d' % \
+            (os.path.normpath(path), prefix, self.count, self.row_len, self.col_len)
+        print 'Data read. Info: ' + self.info
 
     @classmethod
     def readLabels(cls, path='../../data/mnist/', prefix='train'):
