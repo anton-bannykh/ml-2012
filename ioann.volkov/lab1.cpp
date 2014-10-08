@@ -77,7 +77,15 @@ int main() {
                     }
                 }
                 if (ans != testIH(i))
+                {
                     ++errorsCount;
+
+                    if (j + 1 == steps)
+                    {
+                        std::cout << "SUGGESTED = " << ans << std::endl;
+                        testIH.debugPrint(i);
+                    }
+                }
             }
         }
 

@@ -14,6 +14,8 @@ public:
     // Returns label
     uint8_t operator()(size_t imageNum) const;
 
+    void debugPrint(size_t imageNum);
+
     size_t size() const   { return count_; }
     size_t width() const  { return width_; }
     size_t height() const { return height_; }

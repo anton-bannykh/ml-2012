@@ -62,3 +62,15 @@ ByteVector::const_iterator ImagesHolder::operator[](size_t imageNum) const {
 uint8_t ImagesHolder::operator()(size_t imageNum) const {
     return labels_[8 + imageNum];
 }
+
+void ImagesHolder::debugPrint(size_t imageNum) {
+    printf("DIGIT = %d\n", operator()(imageNum));
+    ByteVector::const_iterator img = operator[](imageNum);
+    for (int i = 0; i < height_; ++i) {
+        for (int j = 0; j < width_; ++j) {
+            printf("%2X ", *(img++));
+        }
+        printf("\n");
+    }
+    printf("\n");
+}
